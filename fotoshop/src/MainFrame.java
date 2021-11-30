@@ -9,6 +9,9 @@ public class MainFrame extends JFrame
 {
 	ToolbarPanel m_tp;
 	ViewPanel m_vp;
+	InfoPanel m_ip;
+	
+	Project m_project;
 	
 	public MainFrame()
 	{
@@ -24,11 +27,24 @@ public class MainFrame extends JFrame
 		m_vp = new ViewPanel(this);
 		this.add(m_vp, BorderLayout.CENTER);
 		
+		m_ip = new InfoPanel(this);
+		this.add(m_ip, BorderLayout.LINE_END);
+		
+		this.m_project = new Project(this, "Demo", 400, 400);
+		
 		this.setVisible(true);
 	}
 	
 	public void sendImageFileToViewPanel(File file)
 	{
 		m_vp.loadImage(file);
+	}
+	
+	public void createNewProject()
+	{
+		//NewProjectDialog npd = new NewProjectDialog(this);
+		
+		this.m_project = new Project(this, "New Project", this.m_vp.getWidth() - 20, this.m_vp.getHeight() - 20);
+		this.m_vp.repaint();
 	}
 }
