@@ -1,55 +1,67 @@
 package app;
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
+
+import fotoshop.Layer;
 
 public class InfoPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel m_selectionPanel, m_propertiesPanel;
+	private static final String PROJECT_ID_STRING = "Project";
+	
+	private CardLayout m_cardLayout;
+	
+	private PropertiesPanel m_projectPropertiesPanel;
+
+	private ArrayList<PropertiesPanel> m_layerPropertiesPanels;
+	private ArrayList<Integer> m_layerIDs;
 	
 	public InfoPanel()
 	{		
 		this.setBackground(new Color(100,100,100));
 		
-		generateSelectionPanel();
+		this.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
+		this.m_layerIDs = new ArrayList<Integer>();
+		
 		generatePropertiesPanel();
 		
-		this.setLayout(new BorderLayout());
+		this.m_cardLayout = new CardLayout();
+		this.setLayout(m_cardLayout);
 		
-		this.add(this.m_selectionPanel, BorderLayout.PAGE_START);
-		this.add(this.m_propertiesPanel, BorderLayout.CENTER);
+		PropertiesPanel layerPanel = new PropertiesPanel();
+		layerPanel.addDimensionProperty();
+		layerPanel.addDimensionProperty();
+		layerPanel.addOffsetProperty();
 		
-		/*CardLayout cl = new CardLayout();
-		this.setLayout(cl);
+		this.add(this.m_projectPropertiesPanel, PROJECT_ID_STRING);
 		
-		JPanel cardA = new JPanel();
-		cardA.setBackground(Color.RED);
-		
-		JPanel cardB = new JPanel();
-		cardB.setBackground(Color.BLUE);
-		
-		this.add(cardA, "A");
-		this.add(cardB, "B");
-		
-		cl.show(this, "A");*/
+		m_cardLayout.show(this, PROJECT_ID_STRING);
 	}
 	
-	private void generateSelectionPanel()
+	public void addLayer(Layer layer)
 	{
-		this.m_selectionPanel = new JPanel();
-		this.m_selectionPanel.setBackground(Color.GREEN);
+		m_layerIDs.add(layer.getID());
 		
-		String[] selectionItems = {"Project"};
+		PropertiesPanel newLayerPanel = new PropertiesPanel();
 		
-		this.m_selectionPanel.add(new JComboBox<String>(selectionItems));
+		newLayerPanel.addNameProperty();
+		newLayerPanel.addDimensionProperty();
+		newLayerPanel.addOffsetProperty();
+		
+		m_layerPropertiesPanels.add(newLayerPanel);
+		
+		this.add(newLayerPanel, String.valueOf(layer.getID()));
+		
+		m_cardLayout.show(this, String.valueOf(layer.getID()));
 	}
 	
 	private void generatePropertiesPanel()
 	{
-		this.m_propertiesPanel = new ProjectPropertiesPanel();
+		m_projectPropertiesPanel = new PropertiesPanel();
+		m_projectPropertiesPanel.addDimensionProperty();
 	}
 }

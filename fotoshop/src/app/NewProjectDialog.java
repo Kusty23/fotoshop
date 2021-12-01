@@ -1,4 +1,4 @@
-package fotoshop;
+package app;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,8 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import app.MainFrame;
 
 public class NewProjectDialog extends JDialog
 {

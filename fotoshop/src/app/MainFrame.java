@@ -13,7 +13,7 @@ public class MainFrame extends JFrame
 	
 	private ToolbarPanel m_tp;
 	private ViewPanel m_vp;
-	private InfoPanel m_ip;
+	private static InfoPanel m_ip;
 	
 	private static MainFrame m_mainFrameInstance;
 	private static Project m_project;
@@ -49,6 +49,11 @@ public class MainFrame extends JFrame
 	public static Project getProject()
 	{
 		return m_project;
+	}
+	
+	public static InfoPanel getInfoPanel()
+	{
+		return m_ip;
 	}
 	
 	public void createNewProject()
