@@ -1,19 +1,22 @@
+package app;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.File;
 
 import javax.swing.JFrame;
+
+import fotoshop.Project;
 
 public class MainFrame extends JFrame
 {
 	ToolbarPanel m_tp;
-	ViewPanel m_vp;
+	public ViewPanel m_vp;
 	InfoPanel m_ip;
 	
-	Project m_project;
+	private static MainFrame m_mainFrameInstance;
+	private static Project m_project;
 	
-	public MainFrame()
+	private MainFrame()
 	{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setBackground(Color.LIGHT_GRAY);
@@ -21,30 +24,36 @@ public class MainFrame extends JFrame
 		this.setLayout(new BorderLayout());
 		this.setSize(new Dimension(1000, 700));
 		
-		m_tp = new ToolbarPanel(this);
+		m_tp = new ToolbarPanel();
 		this.add(m_tp, BorderLayout.PAGE_START);
 		
-		m_vp = new ViewPanel(this);
+		m_vp = new ViewPanel();
 		this.add(m_vp, BorderLayout.CENTER);
 		
-		m_ip = new InfoPanel(this);
+		m_ip = new InfoPanel();
 		this.add(m_ip, BorderLayout.LINE_END);
-		
-		this.m_project = new Project(this, "Demo", 400, 400);
 		
 		this.setVisible(true);
 	}
 	
-	public void sendImageFileToViewPanel(File file)
+	public static MainFrame getInstance()
 	{
-		m_vp.loadImage(file);
+		if (m_mainFrameInstance == null)
+			m_mainFrameInstance = new MainFrame();
+		
+		return m_mainFrameInstance;
+	}
+	
+	public static Project getProject()
+	{
+		return m_project;
 	}
 	
 	public void createNewProject()
 	{
 		//NewProjectDialog npd = new NewProjectDialog(this);
 		
-		this.m_project = new Project(this, "New Project", this.m_vp.getWidth() - 20, this.m_vp.getHeight() - 20);
+		MainFrame.m_project = new Project("New Project", this.m_vp.getWidth() - 20, this.m_vp.getHeight() - 20);
 		this.m_vp.repaint();
 	}
 }

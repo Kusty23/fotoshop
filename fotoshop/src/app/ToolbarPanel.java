@@ -1,4 +1,4 @@
-import java.awt.CardLayout;
+package app;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,23 +11,11 @@ import javax.swing.filechooser.FileFilter;
 
 public class ToolbarPanel extends JMenuBar
 {
-	private MainFrame m_mainFrame;
-
-	public ToolbarPanel(MainFrame mf)
+	public ToolbarPanel()
 	{
-		this.m_mainFrame = mf;
-
 		// File Menu
 		JMenu fileMenu = new JMenu("File");
 		this.add(fileMenu);
-
-		// Load Image Item
-		JMenuItem loadImage = new JMenuItem("Load Image");
-		loadImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onLoadImage();}
-		});
-
-		fileMenu.add(loadImage);
 
 		// New Project Item
 		JMenuItem newProject = new JMenuItem("New Project");
@@ -42,7 +30,7 @@ public class ToolbarPanel extends JMenuBar
 		JMenu layerMenu = new JMenu("Layer");
 		this.add(layerMenu);
 
-		// Load Image Item
+		// New Layer Item
 		JMenuItem newLayer = new JMenuItem("New Layer");
 		newLayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {onNewLayer();}
@@ -50,6 +38,13 @@ public class ToolbarPanel extends JMenuBar
 
 		layerMenu.add(newLayer);
 
+		// New Layer Item
+		JMenuItem importLayer = new JMenuItem("Import Layer");
+		importLayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {onImportLayer();}
+		});
+
+		layerMenu.add(importLayer);
 
 		// Effects Menu
 		JMenu effectsMenu = new JMenu("Effects");
@@ -66,21 +61,10 @@ public class ToolbarPanel extends JMenuBar
 
 	private void onNewLayer()
 	{
-		this.m_mainFrame.m_project.newLayer();
-	}
-	
-	private void onNewProject()
-	{
-		this.m_mainFrame.createNewProject();
+		MainFrame.getProject().newLayer();
 	}
 
-	private void onMove()
-	{
-		this.m_mainFrame.m_project.layer1.m_posx += 50;
-		this.m_mainFrame.repaint();
-	}
-
-	private void onLoadImage()
+	private void onImportLayer()
 	{
 		/*
 		 * At some point should probably store the previous working directory to make it better but
@@ -114,7 +98,18 @@ public class ToolbarPanel extends JMenuBar
 		{
 			File file = fileChooser.getSelectedFile();
 			System.out.println("Opening " + file.getAbsolutePath());
-			m_mainFrame.sendImageFileToViewPanel(file);
+			MainFrame.getProject().importLayer(file);
 		}
+	}
+	
+	private void onNewProject()
+	{
+		MainFrame.getInstance().createNewProject();
+	}
+
+	private void onMove()
+	{
+		//this.m_mainFrame.m_project.layer1.m_posx += 50;
+		MainFrame.getInstance().repaint();
 	}
 }

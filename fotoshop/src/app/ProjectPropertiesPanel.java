@@ -1,3 +1,4 @@
+package app;
 import java.awt.Component;
 
 import javax.swing.JLabel;
@@ -5,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import KSwing.KSpringLayout;
+import fotoshop.Project;
 
 public class ProjectPropertiesPanel extends JPanel
 {
@@ -12,10 +14,8 @@ public class ProjectPropertiesPanel extends JPanel
 	
 	KSpringLayout m_springLayout;
 	
-	public ProjectPropertiesPanel(Project project)
+	public ProjectPropertiesPanel()
 	{
-		this.m_project = project;
-		
 		m_springLayout = new KSpringLayout();
 		this.setLayout(m_springLayout);
 		

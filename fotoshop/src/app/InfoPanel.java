@@ -1,3 +1,4 @@
+package app;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -8,14 +9,10 @@ import javax.swing.JPanel;
 
 public class InfoPanel extends JPanel
 {
-	MainFrame m_mainFrame;
-	
 	JPanel m_selectionPanel, m_propertiesPanel;
 	
-	public InfoPanel(MainFrame mf)
-	{
-		this.m_mainFrame = mf;
-		
+	public InfoPanel()
+	{		
 		this.setBackground(new Color(100,100,100));
 		
 		generateSelectionPanel();
@@ -53,6 +50,6 @@ public class InfoPanel extends JPanel
 	
 	private void generatePropertiesPanel()
 	{
-		this.m_propertiesPanel = new ProjectPropertiesPanel(m_mainFrame.m_project);
+		this.m_propertiesPanel = new ProjectPropertiesPanel();
 	}
 }
