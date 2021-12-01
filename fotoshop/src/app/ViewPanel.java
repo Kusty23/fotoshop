@@ -1,4 +1,5 @@
 package app;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -8,6 +9,8 @@ import fotoshop.Project;
 public class ViewPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
+	
+	private static ViewPanel m_viewPanelInstance;
 
 	public ViewPanel()
 	{
@@ -16,6 +19,14 @@ public class ViewPanel extends JPanel
 		this.setVisible(true);
 	}
 
+	public static ViewPanel getInstance()
+	{
+		if (m_viewPanelInstance == null)
+			m_viewPanelInstance = new ViewPanel();
+		
+		return ViewPanel.m_viewPanelInstance;
+	}
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);

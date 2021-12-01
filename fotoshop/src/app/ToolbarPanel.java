@@ -13,6 +13,8 @@ public class ToolbarPanel extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
 
+	private static ToolbarPanel m_toolbarPanelInstance;
+	
 	private JMenu m_fileMenu, m_layerMenu, m_effectsMenu;
 	
 	public ToolbarPanel()
@@ -63,6 +65,14 @@ public class ToolbarPanel extends JMenuBar
 		m_effectsMenu.add(move);
 	}
 
+	public static ToolbarPanel getInstance()
+	{
+		if (m_toolbarPanelInstance == null)
+			m_toolbarPanelInstance = new ToolbarPanel();
+		
+		return ToolbarPanel.m_toolbarPanelInstance;
+	}
+	
 	private void onNewLayer()
 	{
 		MainFrame.getProject().newLayer();

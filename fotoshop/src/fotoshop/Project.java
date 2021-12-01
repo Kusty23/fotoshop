@@ -35,7 +35,12 @@ public class Project
 	
 	public Dimension getDimension() 
 	{
-		return m_dimension;
+		return this.m_dimension;
+	}
+	
+	public String getName()
+	{
+		return this.m_name;
 	}
 	
 	public void newLayer()

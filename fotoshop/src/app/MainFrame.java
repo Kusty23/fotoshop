@@ -11,11 +11,8 @@ public class MainFrame extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	
-	private ToolbarPanel m_tp;
-	private ViewPanel m_vp;
-	private static InfoPanel m_ip;
-	
 	private static MainFrame m_mainFrameInstance;
+	
 	private static Project m_project;
 	
 	private MainFrame()
@@ -26,14 +23,11 @@ public class MainFrame extends JFrame
 		this.setLayout(new BorderLayout());
 		this.setSize(new Dimension(1000, 700));
 		
-		m_tp = new ToolbarPanel();
-		this.add(m_tp, BorderLayout.PAGE_START);
+		this.add(ToolbarPanel.getInstance(), BorderLayout.PAGE_START);
 		
-		m_vp = new ViewPanel();
-		this.add(m_vp, BorderLayout.CENTER);
+		this.add(ViewPanel.getInstance(), BorderLayout.CENTER);
 		
-		m_ip = new InfoPanel();
-		this.add(m_ip, BorderLayout.LINE_END);
+		this.add(InfoPanel.getInstance(), BorderLayout.LINE_END);
 		
 		this.setVisible(true);
 	}
@@ -51,16 +45,11 @@ public class MainFrame extends JFrame
 		return m_project;
 	}
 	
-	public static InfoPanel getInfoPanel()
-	{
-		return m_ip;
-	}
-	
 	public void createNewProject()
 	{
 		//NewProjectDialog npd = new NewProjectDialog(this);
 		
-		MainFrame.m_project = new Project("New Project", this.m_vp.getWidth() - 20, this.m_vp.getHeight() - 20);
-		this.m_vp.repaint();
+		MainFrame.m_project = new Project("New Project", ViewPanel.getInstance().getWidth() - 20, ViewPanel.getInstance().getHeight() - 20);
+		ViewPanel.getInstance().repaint();
 	}
 }

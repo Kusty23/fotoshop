@@ -4,6 +4,8 @@ import java.awt.Component;
 
 import javax.swing.SpringLayout;
 
+import app.PropertiesPanel;
+
 public class KSpringLayout extends SpringLayout
 {
 	private int PADDING = 10;
@@ -33,13 +35,23 @@ public class KSpringLayout extends SpringLayout
 		this.putConstraint(SpringLayout.NORTH, a, PADDING, SpringLayout.NORTH, b);
 	}
 	
-	public void alignRowSouth(Component[] components, Component above, Component parent)
+	public void addRow(Component[] components, PropertiesPanel parent)
 	{
 		// Get first component in row
 		Component a = components[0];
 		
-		// Align first component below the above component
-		appendBelow(a, above);
+		// Align the top of first component
+		if (parent.getLowestComponent() != null)
+		{
+			appendBelow(a, parent.getLowestComponent());
+		}
+		else
+		{
+			attachNorth(a, parent);
+		}
+		
+		// Set the first component as the new lowest component
+		parent.setLowestComponent(a);
 		
 		// Align left edge of first component with panel edge
 		this.putConstraint(SpringLayout.WEST, a, PADDING, SpringLayout.WEST, parent);
@@ -56,10 +68,13 @@ public class KSpringLayout extends SpringLayout
 		this.putConstraint(SpringLayout.EAST, parent, PADDING, SpringLayout.EAST, a);
 	}
 	
-	public void alignRow(Component[] components, Component parent)
+	public void addFirstRow(Component[] components, PropertiesPanel parent)
 	{
 		// Get first component in row
 		Component a = components[0];
+		
+		// Set the first component as the new lowest component
+		parent.setLowestComponent(a);
 		
 		// Align left edge of first component with panel edge
 		this.putConstraint(SpringLayout.WEST, a, PADDING, SpringLayout.WEST, parent);

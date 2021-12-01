@@ -2,6 +2,7 @@ package fotoshop;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
+import app.InfoPanel;
 import app.MainFrame;
 
 public class Layer 
@@ -18,8 +19,8 @@ public class Layer
 	public Layer(String name)
 	{
 		this.m_name = name;
-		this.m_id = this.m_nextID;
-		this.m_nextID++;
+		this.m_id = Layer.m_nextID;
+		Layer.m_nextID++;
 		
 		this.m_Dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
 		
@@ -30,8 +31,8 @@ public class Layer
 	public Layer(String name, BufferedImage image)
 	{
 		this.m_name = name;
-		this.m_id = this.m_nextID;
-		this.m_nextID++;
+		this.m_id = Layer.m_nextID;
+		Layer.m_nextID++;
 		
 		this.m_image = image;
 		
@@ -45,7 +46,7 @@ public class Layer
 	
 	private void initLayer()
 	{
-		MainFrame.getInfoPanel().addLayer(this);
+		InfoPanel.getInstance().addLayer(this);
 	}
 	
 	public void drawToCanvas()
@@ -77,6 +78,11 @@ public class Layer
 	public BufferedImage getImage()
 	{
 		return this.m_image;
+	}
+	
+	public String getName()
+	{
+		return this.m_name;
 	}
 	
 	public int getID()
