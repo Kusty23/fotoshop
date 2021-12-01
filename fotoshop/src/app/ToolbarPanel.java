@@ -11,11 +11,15 @@ import javax.swing.filechooser.FileFilter;
 
 public class ToolbarPanel extends JMenuBar
 {
+	private static final long serialVersionUID = 1L;
+
+	private JMenu m_fileMenu, m_layerMenu, m_effectsMenu;
+	
 	public ToolbarPanel()
 	{
 		// File Menu
-		JMenu fileMenu = new JMenu("File");
-		this.add(fileMenu);
+		m_fileMenu = new JMenu("File");
+		this.add(m_fileMenu);
 
 		// New Project Item
 		JMenuItem newProject = new JMenuItem("New Project");
@@ -23,12 +27,12 @@ public class ToolbarPanel extends JMenuBar
 			public void actionPerformed(ActionEvent ev) {onNewProject();}
 		});
 
-		fileMenu.add(newProject);
+		m_fileMenu.add(newProject);
 
 
 		// Layer Menu
-		JMenu layerMenu = new JMenu("Layer");
-		this.add(layerMenu);
+		m_layerMenu = new JMenu("Layer");
+		this.add(m_layerMenu);
 
 		// New Layer Item
 		JMenuItem newLayer = new JMenuItem("New Layer");
@@ -36,7 +40,7 @@ public class ToolbarPanel extends JMenuBar
 			public void actionPerformed(ActionEvent ev) {onNewLayer();}
 		});
 
-		layerMenu.add(newLayer);
+		m_layerMenu.add(newLayer);
 
 		// New Layer Item
 		JMenuItem importLayer = new JMenuItem("Import Layer");
@@ -44,11 +48,11 @@ public class ToolbarPanel extends JMenuBar
 			public void actionPerformed(ActionEvent ev) {onImportLayer();}
 		});
 
-		layerMenu.add(importLayer);
+		m_layerMenu.add(importLayer);
 
 		// Effects Menu
-		JMenu effectsMenu = new JMenu("Effects");
-		this.add(effectsMenu);
+		m_effectsMenu = new JMenu("Effects");
+		this.add(m_effectsMenu);
 
 		// Move Item
 		JMenuItem move = new JMenuItem("Move Image");
@@ -56,7 +60,7 @@ public class ToolbarPanel extends JMenuBar
 			public void actionPerformed(ActionEvent ev) {onMove();}
 		});
 
-		effectsMenu.add(move);
+		m_effectsMenu.add(move);
 	}
 
 	private void onNewLayer()

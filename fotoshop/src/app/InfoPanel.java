@@ -1,15 +1,15 @@
 package app;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class InfoPanel extends JPanel
 {
-	JPanel m_selectionPanel, m_propertiesPanel;
+	private static final long serialVersionUID = 1L;
+	
+	private JPanel m_selectionPanel, m_propertiesPanel;
 	
 	public InfoPanel()
 	{		
@@ -45,7 +45,7 @@ public class InfoPanel extends JPanel
 		
 		String[] selectionItems = {"Project"};
 		
-		this.m_selectionPanel.add(new JComboBox(selectionItems));
+		this.m_selectionPanel.add(new JComboBox<String>(selectionItems));
 	}
 	
 	private void generatePropertiesPanel()

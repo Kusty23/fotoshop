@@ -6,7 +6,7 @@ import javax.swing.SpringLayout;
 
 public class KSpringLayout extends SpringLayout
 {
-	int PADDING = 10;
+	private int PADDING = 10;
 	
 	public KSpringLayout()
 	{

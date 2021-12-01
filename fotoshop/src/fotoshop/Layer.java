@@ -6,10 +6,9 @@ import app.MainFrame;
 
 public class Layer 
 {
-	String m_name;
+	private String m_name;
 	
-	BufferedImage m_image;
-	
+	private BufferedImage m_image;
 	private Dimension m_Dimension;
 	private int m_offsetX, m_offsetY;
 	
@@ -17,7 +16,7 @@ public class Layer
 	{
 		this.m_name = name;
 		
-		this.m_Dimension = new Dimension(MainFrame.getProject().m_width, MainFrame.getProject().m_height);
+		this.m_Dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
 		
 		this.m_offsetX = 0;
 		this.m_offsetY = 0;
@@ -38,7 +37,7 @@ public class Layer
 	{
 		System.out.println("Rendering layer");
 		
-		BufferedImage canvas = MainFrame.getProject().m_canvas;
+		BufferedImage canvas = MainFrame.getProject().getCanvas();
 		
 		int x = this.m_offsetX;
 		

@@ -6,13 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import KSwing.KSpringLayout;
-import fotoshop.Project;
 
 public class ProjectPropertiesPanel extends JPanel
 {
-	Project m_project;
+	private static final long serialVersionUID = 1L;
 	
-	KSpringLayout m_springLayout;
+	private KSpringLayout m_springLayout;
 	
 	public ProjectPropertiesPanel()
 	{

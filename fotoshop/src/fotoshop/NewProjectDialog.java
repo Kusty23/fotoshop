@@ -13,6 +13,8 @@ import app.MainFrame;
 
 public class NewProjectDialog extends JDialog
 {
+	private static final long serialVersionUID = 1L;
+	
 	JTextField m_projectName;
 	
 	public NewProjectDialog(MainFrame mf)

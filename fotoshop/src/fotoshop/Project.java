@@ -1,5 +1,6 @@
 package fotoshop;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,29 +8,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
-
 import app.MainFrame;
 
 public class Project 
 {
-	String m_name;
-	int m_width, m_height;
+	private String m_name;
+	private Dimension m_dimension;
 	
-	public ArrayList<Layer> m_layers;
-	public BufferedImage m_canvas;
-	
-	Layer layer1;
+	private ArrayList<Layer> m_layers;
+	private BufferedImage m_canvas;
 	
 	public Project(String name, int width, int height)
 	{
 		this.m_name = name;
-		this.m_width = width;
-		this.m_height = height;
+		this.m_dimension = new Dimension(width, height);
 		
 		this.m_canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		
 		this.m_layers = new ArrayList<Layer>();
+	}
+	
+	public BufferedImage getCanvas()
+	{
+		return this.m_canvas;
+	}
+	
+	public Dimension getDimension() 
+	{
+		return m_dimension;
 	}
 	
 	public void newLayer()
@@ -38,7 +44,7 @@ public class Project
 		
 		m_layers.add(newLayer);
 		
-		MainFrame.getInstance().m_vp.repaint();
+		MainFrame.getInstance().repaint();
 	}
 	
 	public void importLayer(File file)
@@ -48,8 +54,9 @@ public class Project
 			BufferedImage image = ImageIO.read(file);
 			
 			Layer newLayer = new Layer("New Layer", image);
-			MainFrame.getInstance().m_vp.loadImage(file);
 			this.m_layers.add(newLayer);
+			
+			MainFrame.getInstance().repaint();
 			
 			System.out.println("Loaded " + file.getAbsolutePath());
 		} 
@@ -67,14 +74,14 @@ public class Project
 		int checkSize = 5;
 		boolean color = true;
 		boolean startColor = true;
-		while (x < this.m_width)
+		while (x < this.getDimension().width)
 		{
 			int y = buffer;
 			
 			startColor = !startColor;
 			color = startColor;
 			
-			while (y < this.m_height)
+			while (y < this.getDimension().height)
 			{
 				g.setColor( color ? Color.WHITE : Color.LIGHT_GRAY);
 				g.fillRect(x, y, checkSize, checkSize);

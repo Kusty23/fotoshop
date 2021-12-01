@@ -9,9 +9,11 @@ import fotoshop.Project;
 
 public class MainFrame extends JFrame
 {
-	ToolbarPanel m_tp;
-	public ViewPanel m_vp;
-	InfoPanel m_ip;
+	private static final long serialVersionUID = 1L;
+	
+	private ToolbarPanel m_tp;
+	private ViewPanel m_vp;
+	private InfoPanel m_ip;
 	
 	private static MainFrame m_mainFrameInstance;
 	private static Project m_project;
