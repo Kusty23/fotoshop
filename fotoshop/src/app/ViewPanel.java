@@ -20,12 +20,11 @@ public class ViewPanel extends JPanel
 	{
 		super.paintComponent(g);
 
-		// Draw transparency checkerboard
 		Project p = MainFrame.getProject();
 
 		if (p != null)
 		{		
-			MainFrame.getProject().render(g);
+			p.render(g);
 			g.drawImage(p.getCanvas(), 10, 10, null);
 		}
 	}
