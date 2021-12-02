@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -27,6 +28,7 @@ public class PropertiesPanel extends JPanel
 	// Dimension
 	private JLabel m_widthLabel, m_heightLabel;
 	private JTextField m_widthField, m_heightField;
+	private JCheckBox m_useOriginalAspectRatio;
 
 	// Offset
 	private JLabel m_offsetXLabel, m_offsetYLabel;
@@ -88,19 +90,29 @@ public class PropertiesPanel extends JPanel
 
 		// Add ActionListener
 		m_widthField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {updateDimension();}
+			public void actionPerformed(ActionEvent e) {updateDimension(e);}
 		});
 		
 		m_heightField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {updateDimension();}
+			public void actionPerformed(ActionEvent e) {updateDimension(e);}
 		});
 
+		m_widthField.setName("m_widthField");
+		m_heightField.setName("m_heightField");
+		
 		this.add(m_widthLabel);
 		this.add(m_widthField);
 		this.add(m_heightLabel);
 		this.add(m_heightField);
 
 		m_springLayout.addRow(new Component[] {m_widthLabel, m_widthField, m_heightLabel, m_heightField}, this);
+		
+		// Use original aspect ratio
+		m_useOriginalAspectRatio = new JCheckBox("Use original aspect ratio");
+		
+		this.add(m_useOriginalAspectRatio);
+		
+		m_springLayout.addRow(new Component[] {m_useOriginalAspectRatio}, this);
 	}
 
 	protected void addOffsetProperty(Dimension offset)
@@ -142,11 +154,29 @@ public class PropertiesPanel extends JPanel
 		}		
 	}
 	
-	private void updateDimension()
+	private void updateDimension(ActionEvent e)
 	{
 		int x = Integer.parseInt(m_widthField.getText());
 		int y = Integer.parseInt(m_heightField.getText());
 
+		if (m_useOriginalAspectRatio.isSelected())
+		{
+			JTextField tf = (JTextField) e.getSource();
+			double aspect = m_layer.getOriginalAspect();
+			
+			if (tf.getName() == m_widthField.getName())
+			{
+				
+				y = (int) (x / aspect);
+				m_heightField.setText(String.valueOf(y));
+			}
+			else
+			{
+				x = (int) (y * aspect);
+				m_widthField.setText(String.valueOf(x));
+			}
+		}
+		
 		if (m_layer == null)
 		{
 			MainFrame.getProject().setDimension(new Dimension(x,y));

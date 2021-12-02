@@ -1,5 +1,7 @@
 package fotoshop;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import app.InfoPanel;
@@ -12,8 +14,11 @@ public class Layer
 	private String m_name;
 	private int m_id;
 	
-	private BufferedImage m_image;
+	private BufferedImage m_original, m_image;
+	
 	private Dimension m_dimension;
+	private double m_originalAspect;
+	
 	private Dimension m_offset;
 	
 	public Layer(String name)
@@ -33,9 +38,12 @@ public class Layer
 	{
 		this(name);
 		
+		this.m_original = image;
 		this.m_image = image;
 		
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
+		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
+		System.out.println(m_originalAspect);
 	}
 	
 	private void initLayer()
@@ -79,6 +87,21 @@ public class Layer
 		}
 	}
 	
+	private void resizeImage()
+	{
+		BufferedImage resizedImage = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = resizedImage.createGraphics();
+		
+		float xScale = (float)  m_dimension.width / m_original.getWidth();
+		float yScale = (float) m_dimension.height / m_original.getHeight();
+		
+		AffineTransform at = AffineTransform.getScaleInstance(xScale, yScale);
+		g.drawRenderedImage(m_original, at);
+		g.dispose();
+		
+		m_image = resizedImage;
+	}
+	
 	public Dimension getDimension()
 	{
 		return this.m_dimension;
@@ -87,6 +110,13 @@ public class Layer
 	public void setDimension(Dimension dimension)
 	{
 		this.m_dimension = dimension;
+		
+		resizeImage();
+	}
+	
+	public double getOriginalAspect()
+	{
+		return this.m_originalAspect;
 	}
 	
 	public Dimension getOffset()
