@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
 import app.MainFrame;
 
 public class Project 
@@ -38,9 +39,32 @@ public class Project
 		return this.m_dimension;
 	}
 	
+	public void setDimension(Dimension dimension)
+	{
+		this.m_dimension = dimension;
+		
+		this.m_canvas = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_ARGB);
+	}
+	
 	public String getName()
 	{
 		return this.m_name;
+	}
+	
+	public void setName(String name)
+	{
+		this.m_name = name;
+	}
+	
+	public Layer getLayerFromID(int id)
+	{
+		for (Layer layer : m_layers)
+		{
+			if (layer.getID() == id)
+				return layer;
+		}
+		
+		return null;
 	}
 	
 	public void newLayer()
@@ -71,7 +95,7 @@ public class Project
 		}
 	}
 	
-	public void drawTransparencyGrid(Graphics g)
+	private void drawTransparencyGrid(Graphics g)
 	{
 		int buffer = 10;
 		
@@ -96,16 +120,33 @@ public class Project
 			x += checkSize;
 		}
 	}
+	
+	private void drawWhiteBackground(Graphics g)
+	{
+		g.setColor(Color.WHITE);
+		g.fillRect(10, 10, m_dimension.width, m_dimension.height);
+	}
+	
+	private void drawFrameOfReference(Graphics g)
+	{
+		g.setColor(Color.DARK_GRAY);
+		g.drawRect(10, 10, m_dimension.width, m_dimension.height);
+	}
 
 	public void render(Graphics g)
 	{
-		drawTransparencyGrid(g);
+		//drawTransparencyGrid(g);
+		drawWhiteBackground(g);
 		
 		System.out.println("RENDERING");
+		
+		m_canvas = new BufferedImage(m_canvas.getWidth(), m_canvas.getHeight(), m_canvas.getType());
 		
 		for (Layer layer : this.m_layers)
 		{
 			layer.drawToCanvas();
 		}
+		
+		drawFrameOfReference(g);
 	}
 }

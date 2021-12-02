@@ -23,7 +23,7 @@ public class MainFrame extends JFrame
 		this.setLayout(new BorderLayout());
 		this.setSize(new Dimension(1000, 700));
 		
-		this.add(ToolbarPanel.getInstance(), BorderLayout.PAGE_START);
+		this.add(ToolBar.getInstance(), BorderLayout.PAGE_START);
 		
 		this.add(ViewPanel.getInstance(), BorderLayout.CENTER);
 		
@@ -50,6 +50,7 @@ public class MainFrame extends JFrame
 		//NewProjectDialog npd = new NewProjectDialog(this);
 		
 		MainFrame.m_project = new Project("New Project", ViewPanel.getInstance().getWidth() - 20, ViewPanel.getInstance().getHeight() - 20);
+		InfoPanel.getInstance().initProjectPropertiesPanel();
 		ViewPanel.getInstance().repaint();
 	}
 }

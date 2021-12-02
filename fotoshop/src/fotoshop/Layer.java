@@ -13,8 +13,8 @@ public class Layer
 	private int m_id;
 	
 	private BufferedImage m_image;
-	private Dimension m_Dimension;
-	private int m_offsetX, m_offsetY;
+	private Dimension m_dimension;
+	private Dimension m_offset;
 	
 	public Layer(String name)
 	{
@@ -22,26 +22,20 @@ public class Layer
 		this.m_id = Layer.m_nextID;
 		Layer.m_nextID++;
 		
-		this.m_Dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
+		this.m_dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
 		
-		this.m_offsetX = 0;
-		this.m_offsetY = 0;
+		this.m_offset = new Dimension(0,0);
+		
+		initLayer();
 	}
 	
 	public Layer(String name, BufferedImage image)
 	{
-		this.m_name = name;
-		this.m_id = Layer.m_nextID;
-		Layer.m_nextID++;
+		this(name);
 		
 		this.m_image = image;
 		
-		this.m_Dimension = new Dimension(image.getWidth(), image.getHeight());
-		
-		this.m_offsetX = 0;
-		this.m_offsetY = 0;
-		
-		initLayer();
+		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 	}
 	
 	private void initLayer()
@@ -51,19 +45,34 @@ public class Layer
 	
 	public void drawToCanvas()
 	{
+		if (m_image == null)
+			return;
+		
 		System.out.println("Rendering layer");
 		
 		BufferedImage canvas = MainFrame.getProject().getCanvas();
 		
 		int x = 0;
 		
-		while (x < this.m_Dimension.width && x + this.m_offsetX < canvas.getWidth())
+		while (x < this.m_dimension.width && x + m_offset.width < canvas.getWidth())
 		{
+			if (x + m_offset.width < 0)
+			{
+				x++;
+				continue;
+			}
+			
 			int y = 0;
 			
-			while (y < this.m_Dimension.height && y + this.m_offsetY < canvas.getHeight())
+			while (y < this.m_dimension.height && y + m_offset.height < canvas.getHeight())
 			{
-				canvas.setRGB(x + this.m_offsetX, y + this.m_offsetY, m_image.getRGB(x, y));
+				if (y + m_offset.height < 0)
+				{
+					y++;
+					continue;
+				}
+				
+				canvas.setRGB(x + m_offset.width, y + m_offset.height, m_image.getRGB(x, y));
 				y++;
 			}
 			x++;
@@ -72,7 +81,22 @@ public class Layer
 	
 	public Dimension getDimension()
 	{
-		return this.m_Dimension;
+		return this.m_dimension;
+	}
+	
+	public void setDimension(Dimension dimension)
+	{
+		this.m_dimension = dimension;
+	}
+	
+	public Dimension getOffset()
+	{
+		return this.m_offset;
+	}
+	
+	public void setOffset(Dimension offset)
+	{
+		this.m_offset = offset;
 	}
 	
 	public BufferedImage getImage()
@@ -83,6 +107,11 @@ public class Layer
 	public String getName()
 	{
 		return this.m_name;
+	}
+	
+	public void setName(String name)
+	{
+		this.m_name = name;
 	}
 	
 	public int getID()

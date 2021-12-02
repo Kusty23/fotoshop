@@ -1,8 +1,12 @@
 package app;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import fotoshop.Layer;
@@ -10,74 +14,108 @@ import fotoshop.Layer;
 public class InfoPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static InfoPanel m_infoPanelInstance;
-	
+
 	public static final String PROJECT_ID_STRING = "Project";
-	
+
+	private JPanel m_selectionPanel, m_panelContainer;
+
 	private CardLayout m_cardLayout;
-	
+
 	private PropertiesPanel m_projectPropertiesPanel;
 
-	private ArrayList<PropertiesPanel> m_layerPropertiesPanels;
+	// Current Component
+	private static JComboBox<String> m_currentComponentBox;
+
+	private static ArrayList<PropertiesPanel> m_layerPropertiesPanels;
 	private static ArrayList<Integer> m_layerIDs;
-	
+
 	public InfoPanel()
 	{		
 		this.setBackground(new Color(100,100,100));
-		
-		this.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
+		this.setLayout(new BorderLayout());
+
+		InfoPanel.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
 		InfoPanel.m_layerIDs = new ArrayList<Integer>();
-		
-		generatePropertiesPanel();
-		
-		this.m_cardLayout = new CardLayout();
-		this.setLayout(m_cardLayout);
-		
-		PropertiesPanel layerPanel = new PropertiesPanel();
-		layerPanel.addDimensionProperty();
-		layerPanel.addDimensionProperty();
-		layerPanel.addOffsetProperty();
-		
-		this.add(this.m_projectPropertiesPanel, PROJECT_ID_STRING);
-		
-		m_cardLayout.show(this, PROJECT_ID_STRING);
+
+		initSelectionPanel();
+		initPanelContainer();
 	}
-	
+
 	public static InfoPanel getInstance()
 	{
 		if (m_infoPanelInstance == null)
 			m_infoPanelInstance = new InfoPanel();
-		
+
 		return InfoPanel.m_infoPanelInstance;
 	}
-	
+
 	public static ArrayList<Integer> getLayerIDs()
 	{
 		return InfoPanel.m_layerIDs;
 	}
-	
+
 	public void addLayer(Layer layer)
 	{
 		m_layerIDs.add(layer.getID());
-		
+
 		PropertiesPanel newLayerPanel = new PropertiesPanel();
-		
-		newLayerPanel.addNameProperty();
-		newLayerPanel.addDimensionProperty();
-		newLayerPanel.addOffsetProperty();
-		
+
+		newLayerPanel.setLayer(layer);
+
+		newLayerPanel.addNameProperty(layer.getName());
+		newLayerPanel.addDimensionProperty(layer.getDimension());
+		newLayerPanel.addOffsetProperty(layer.getOffset());
+
 		m_layerPropertiesPanels.add(newLayerPanel);
+
+		m_panelContainer.add(newLayerPanel, String.valueOf(layer.getID()));
 		
-		this.add(newLayerPanel, String.valueOf(layer.getID()));
-				
-		m_cardLayout.show(this, String.valueOf(layer.getID()));
+		m_currentComponentBox.addItem(String.valueOf(layer.getID()));
+
+		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
+	}
+
+	private void initSelectionPanel()
+	{
+		m_selectionPanel = new JPanel();
+		this.add(m_selectionPanel, BorderLayout.PAGE_START);
+
+		// Combo Box
+		m_currentComponentBox = new JComboBox<String>();
+		m_selectionPanel.add(m_currentComponentBox);
+
+		// Add ActionListener
+		m_currentComponentBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {onCurrentComponentUpdate();}
+		});
 	}
 	
-	private void generatePropertiesPanel()
+	private void initPanelContainer()
+	{
+		m_panelContainer = new JPanel();
+		this.add(m_panelContainer);
+		
+		this.m_cardLayout = new CardLayout();
+		m_panelContainer.setLayout(m_cardLayout);
+	}
+
+	private void onCurrentComponentUpdate()
+	{
+		m_cardLayout.show(m_panelContainer, (String) m_currentComponentBox.getSelectedItem());
+	}
+
+	public void initProjectPropertiesPanel()
 	{
 		m_projectPropertiesPanel = new PropertiesPanel();
-		m_projectPropertiesPanel.addNameProperty();
-		m_projectPropertiesPanel.addDimensionProperty();
+		m_panelContainer.add(m_projectPropertiesPanel, PROJECT_ID_STRING);
+		
+		m_currentComponentBox.addItem(PROJECT_ID_STRING);
+		
+		m_projectPropertiesPanel.addNameProperty("Project");
+		m_projectPropertiesPanel.addDimensionProperty(MainFrame.getProject().getDimension());
+		
+		m_cardLayout.show(m_panelContainer, PROJECT_ID_STRING);
 	}
 }
