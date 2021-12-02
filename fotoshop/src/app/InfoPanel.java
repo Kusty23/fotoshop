@@ -73,6 +73,7 @@ public class InfoPanel extends JPanel
 		m_panelContainer.add(newLayerPanel, String.valueOf(layer.getID()));
 		
 		m_currentComponentBox.addItem(String.valueOf(layer.getID()));
+		m_currentComponentBox.setSelectedItem(String.valueOf(layer.getID()));
 
 		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
 	}
