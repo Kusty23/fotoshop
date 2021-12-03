@@ -72,26 +72,30 @@ public class Layer
 		BufferedImage canvas = MainFrame.getProject().getCanvas();
 
 		int x = 0;
+		int xO = x + m_offset.width;
 
-		while (x < this.m_dimension.width && x + m_offset.width < canvas.getWidth())
+		while (x < this.m_dimension.width && xO < canvas.getWidth())
 		{
-			if (x + m_offset.width < 0)
+			if (xO < 0)
 			{
 				x++;
+				xO++;
 				continue;
 			}
 
 			int y = 0;
+			int yO = y + m_offset.height;
 
-			while (y < this.m_dimension.height && y + m_offset.height < canvas.getHeight())
+			while (y < this.m_dimension.height && yO < canvas.getHeight())
 			{
-				if (y + m_offset.height < 0)
+				if (yO < 0)
 				{
 					y++;
+					yO++;
 					continue;
 				}
 
-				int canvasRGB = canvas.getRGB(x, y);
+				int canvasRGB = canvas.getRGB(xO, yO);
 				int imageRGB = m_image.getRGB(x, y);
 
 				int compositeRGB;
@@ -101,10 +105,14 @@ public class Layer
 				else
 					compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, BlendingModes.NORMAL);
 
-				canvas.setRGB(x + m_offset.width, y + m_offset.height, compositeRGB);
+				canvas.setRGB(xO, yO, compositeRGB);
+				
 				y++;
+				yO++;
 			}
+			
 			x++;
+			xO++;
 		}
 	}
 
