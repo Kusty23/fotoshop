@@ -20,6 +20,8 @@ public class Layer
 	private double m_originalAspect;
 
 	private Dimension m_offset;
+	
+	private int m_blendMode;
 
 	public Layer(String name)
 	{
@@ -30,6 +32,8 @@ public class Layer
 		this.m_dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
 
 		this.m_offset = new Dimension(0,0);
+		
+		this.m_blendMode = BlendingModes.NORMAL;
 
 		initLayer();
 	}
@@ -86,7 +90,7 @@ public class Layer
 				int compositeRGB;
 
 				if (m_id != 0)
-				compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, BlendingModes.MULTIPLY);
+				compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, m_blendMode);
 				else
 					compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, BlendingModes.NORMAL);
 
@@ -162,5 +166,15 @@ public class Layer
 	public void setImage(BufferedImage image)
 	{
 		this.m_image = image;
+	}
+	
+	public int getBlendMode()
+	{
+		return this.m_blendMode;
+	}
+	
+	public void setBlendMode(int mode)
+	{
+		this.m_blendMode = mode;
 	}
 }

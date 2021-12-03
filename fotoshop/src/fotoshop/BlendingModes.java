@@ -4,11 +4,13 @@ import java.util.Random;
 
 public class BlendingModes 
 {
-	public final static int OVERWRITE = 0;
-	public final static int NORMAL = 1;
-	public final static int DISSOLVE = 2;
+	public final static int NORMAL = 0;
+	public final static int DISSOLVE = 1;
 	
-	public final static int MULTIPLY = 3;
+	public final static int MULTIPLY = 2;
+	public final static int SCREEN = 3;
+	
+	public final static int OVERWRITE = 4;
 	
 
 	private static Random m_random;
@@ -46,6 +48,7 @@ public class BlendingModes
 		case NORMAL: return normal();
 		case DISSOLVE: return dissolve();
 		case MULTIPLY: return multiply();
+		case SCREEN: return screen();
 
 		default: return normal();
 		}
@@ -86,6 +89,24 @@ public class BlendingModes
 		double r_comp = m_rImgAD * m_rImgBD;
 		double g_comp = m_gImgAD * m_gImgBD;
 		double b_comp = m_bImgAD * m_bImgBD;
+
+		int a = (int) (a_comp * 255);
+		int r = (int) (r_comp * 255);
+		int g = (int) (g_comp * 255);
+		int b = (int) (b_comp * 255);
+
+		int p = a << 24 | r << 16 | g << 8 | b;
+
+		return p;
+	}
+	
+	private static int screen()
+	{
+		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+
+		double r_comp = 1 - (1 - m_rImgAD) * (1 - m_rImgBD);
+		double g_comp = 1 - (1 - m_gImgAD) * (1 - m_gImgBD);
+		double b_comp = 1 - (1 - m_bImgAD) * (1 - m_bImgBD);
 
 		int a = (int) (a_comp * 255);
 		int r = (int) (r_comp * 255);

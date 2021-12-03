@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -33,6 +34,10 @@ public class PropertiesPanel extends JPanel
 	// Offset
 	private JLabel m_offsetXLabel, m_offsetYLabel;
 	private JTextField m_offsetXField, m_offsetYField;
+
+	// Blend Mode
+	private JLabel m_blendLabel;
+	private JComboBox<String> m_blendBox;
 
 	// Must keep track of the lowest component to 
 	private Component m_lowestComponent;
@@ -140,6 +145,23 @@ public class PropertiesPanel extends JPanel
 		m_springLayout.addRow(new Component[] {m_offsetXLabel, m_offsetXField, m_offsetYLabel, m_offsetYField}, this);
 	}
 
+	public void addBlendProperty()
+	{
+		m_blendLabel = new JLabel("Blend: ");
+
+		String[] options = {"Normal", "Dissolve", "Multiply", "Screen", "Overwrite"};
+		m_blendBox = new JComboBox<String>(options);
+
+		m_blendBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {updateBlend();}
+		});
+
+		this.add(m_blendLabel);
+		this.add(m_blendBox);
+
+		m_springLayout.addRow(new Component[] {m_blendLabel, m_blendBox}, this);
+	}
+
 	private void updateName()
 	{
 		String name = m_nameField.getText();
@@ -196,6 +218,13 @@ public class PropertiesPanel extends JPanel
 
 		m_layer.setOffset(new Dimension(x,y));
 
+		ViewPanel.getInstance().repaint();
+	}
+	
+	private void updateBlend()
+	{		
+		m_layer.setBlendMode(m_blendBox.getSelectedIndex());
+	
 		ViewPanel.getInstance().repaint();
 	}
 }
