@@ -15,7 +15,7 @@ public class KLabel extends JLabel
 	{
 		super(text);
 		
-		//this.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		this.setMinimumSize(new Dimension(WIDTH, this.getMinimumSize().height));
 		this.setPreferredSize(new Dimension(WIDTH, this.getPreferredSize().height));
