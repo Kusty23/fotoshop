@@ -4,11 +4,12 @@ import java.awt.Component;
 
 import javax.swing.SpringLayout;
 
+import app.NewProjectDialog;
 import app.PropertiesPanel;
 
 public class KSpringLayout extends SpringLayout
 {
-	private int PADDING = 10;
+	private int PADDING = 10, TIGHT_PADDING = 30;
 	
 	public KSpringLayout()
 	{

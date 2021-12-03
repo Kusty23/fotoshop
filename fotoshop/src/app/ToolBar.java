@@ -15,7 +15,7 @@ public class ToolBar extends JMenuBar
 
 	private static ToolBar m_toolbarPanelInstance;
 	
-	private JMenu m_fileMenu, m_layerMenu, m_effectsMenu;
+	private JMenu m_fileMenu, m_layerMenu;
 	
 	public ToolBar()
 	{
@@ -51,18 +51,6 @@ public class ToolBar extends JMenuBar
 		});
 
 		m_layerMenu.add(importLayer);
-
-		// Effects Menu
-		m_effectsMenu = new JMenu("Effects");
-		this.add(m_effectsMenu);
-
-		// Move Item
-		JMenuItem move = new JMenuItem("Move Image");
-		move.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onMove();}
-		});
-
-		m_effectsMenu.add(move);
 	}
 
 	public static ToolBar getInstance()
@@ -119,11 +107,5 @@ public class ToolBar extends JMenuBar
 	private void onNewProject()
 	{
 		MainFrame.getInstance().createNewProject();
-	}
-
-	private void onMove()
-	{
-		//this.m_mainFrame.m_project.layer1.m_posx += 50;
-		MainFrame.getInstance().repaint();
 	}
 }

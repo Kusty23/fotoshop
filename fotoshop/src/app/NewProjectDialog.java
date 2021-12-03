@@ -1,40 +1,62 @@
 package app;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import KSwing.KSpringLayout;
+
 public class NewProjectDialog extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 	
-	JTextField m_projectName;
+	private JButton m_okButton;
+	
+	private Component m_lowestComponent;
+	
+	JTextField m_nameField;
 	
 	public NewProjectDialog(MainFrame mf)
 	{
 		this.setLocation(mf.getWidth() / 2, mf.getHeight() / 2);
 		this.setSize(500, 200);
-		this.setLayout(new FlowLayout());
 		
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		// Project Name
 		JLabel projectNameLabel = new JLabel("New Project Name:");
+		m_nameField = new JTextField("New Project");
+		
 		this.add(projectNameLabel);
+		this.add(m_nameField);
 		
-		m_projectName = new JTextField("");
-		m_projectName.setMinimumSize(new Dimension(100, 20));
-		this.add(m_projectName);
-		
-		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener() {
+		// OK Button
+		m_okButton = new JButton("OK");
+		m_okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {onOK();}
 		});
-		this.add(ok);
+		
+		this.add(m_okButton);
 		
 		this.setVisible(true);
+	}
+	
+	public Component getLowestComponent()
+	{
+		return this.m_lowestComponent;
+	}
+
+	public void setLowestComponent(Component c)
+	{
+		this.m_lowestComponent = c;
 	}
 	
 	private void onOK()

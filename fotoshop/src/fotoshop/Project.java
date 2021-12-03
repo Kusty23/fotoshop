@@ -95,6 +95,7 @@ public class Project
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void drawTransparencyGrid(Graphics g)
 	{
 		int buffer = 10;

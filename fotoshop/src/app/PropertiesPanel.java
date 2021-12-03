@@ -74,7 +74,7 @@ public class PropertiesPanel extends JPanel
 			public void actionPerformed(ActionEvent e) {updateName();}
 		});
 
-		
+
 		this.add(m_nameLabel);
 		this.add(m_nameField);
 
@@ -92,26 +92,26 @@ public class PropertiesPanel extends JPanel
 		m_widthField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateDimension(e);}
 		});
-		
+
 		m_heightField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateDimension(e);}
 		});
 
 		m_widthField.setName("m_widthField");
 		m_heightField.setName("m_heightField");
-		
+
 		this.add(m_widthLabel);
 		this.add(m_widthField);
 		this.add(m_heightLabel);
 		this.add(m_heightField);
 
 		m_springLayout.addRow(new Component[] {m_widthLabel, m_widthField, m_heightLabel, m_heightField}, this);
-		
+
 		// Use original aspect ratio
 		m_useOriginalAspectRatio = new JCheckBox("Use original aspect ratio");
-		
+
 		this.add(m_useOriginalAspectRatio);
-		
+
 		m_springLayout.addRow(new Component[] {m_useOriginalAspectRatio}, this);
 	}
 
@@ -143,7 +143,7 @@ public class PropertiesPanel extends JPanel
 	private void updateName()
 	{
 		String name = m_nameField.getText();
-		
+
 		if (m_layer == null)
 		{
 			MainFrame.getProject().setName(name);
@@ -153,7 +153,7 @@ public class PropertiesPanel extends JPanel
 			m_layer.setName(name);
 		}		
 	}
-	
+
 	private void updateDimension(ActionEvent e)
 	{
 		int x = Integer.parseInt(m_widthField.getText());
@@ -163,10 +163,10 @@ public class PropertiesPanel extends JPanel
 		{
 			JTextField tf = (JTextField) e.getSource();
 			double aspect = m_layer.getOriginalAspect();
-			
+
 			if (tf.getName() == m_widthField.getName())
 			{
-				
+
 				y = (int) (x / aspect);
 				m_heightField.setText(String.valueOf(y));
 			}
@@ -176,7 +176,7 @@ public class PropertiesPanel extends JPanel
 				m_widthField.setText(String.valueOf(x));
 			}
 		}
-		
+
 		if (m_layer == null)
 		{
 			MainFrame.getProject().setDimension(new Dimension(x,y));
