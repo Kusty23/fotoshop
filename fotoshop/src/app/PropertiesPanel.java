@@ -6,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import KSwing.KComboBox;
+import KSwing.KLabel;
+import KSwing.KLargeTextField;
 import KSwing.KSpringLayout;
+import KSwing.KSmallTextField;
 import fotoshop.Layer;
 
 public class PropertiesPanel extends JPanel
@@ -19,25 +21,25 @@ public class PropertiesPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	private KSpringLayout m_springLayout;
-
+	
 	private Layer m_layer;
 
 	// Name
-	private JLabel m_nameLabel;
-	private JTextField m_nameField;
+	private KLabel m_nameLabel;
+	private KLargeTextField m_nameField;
 
 	// Dimension
-	private JLabel m_widthLabel, m_heightLabel;
-	private JTextField m_widthField, m_heightField;
+	private KLabel m_dimensionLabel;
+	private KSmallTextField m_widthField, m_heightField;
 	private JCheckBox m_useOriginalAspectRatio;
 
 	// Offset
-	private JLabel m_offsetXLabel, m_offsetYLabel;
-	private JTextField m_offsetXField, m_offsetYField;
+	private KLabel m_offsetLabel;
+	private KSmallTextField m_offsetXField, m_offsetYField;
 
 	// Blend Mode
-	private JLabel m_blendLabel;
-	private JComboBox<String> m_blendBox;
+	private KLabel m_blendLabel;
+	private KComboBox<String> m_blendBox;
 
 	// Must keep track of the lowest component to 
 	private Component m_lowestComponent;
@@ -70,9 +72,9 @@ public class PropertiesPanel extends JPanel
 
 	protected void addNameProperty(String name)
 	{
-		m_nameLabel = new JLabel("Name:");
+		m_nameLabel = new KLabel("Name:");
 
-		m_nameField = new JTextField(name);
+		m_nameField = new KLargeTextField(name);
 
 		// Add ActionListener
 		m_nameField.addActionListener(new ActionListener() {
@@ -88,10 +90,9 @@ public class PropertiesPanel extends JPanel
 
 	protected void addDimensionProperty(Dimension dimension)
 	{
-		m_widthLabel = new JLabel("Width:");
-		m_heightLabel = new JLabel("Height:");
-		m_widthField = new JTextField(String.valueOf(dimension.width));
-		m_heightField = new JTextField(String.valueOf(dimension.height));
+		m_dimensionLabel = new KLabel("Size:");
+		m_widthField = new KSmallTextField(String.valueOf(dimension.width));
+		m_heightField = new KSmallTextField(String.valueOf(dimension.height));
 
 		// Add ActionListener
 		m_widthField.addActionListener(new ActionListener() {
@@ -105,15 +106,15 @@ public class PropertiesPanel extends JPanel
 		m_widthField.setName("m_widthField");
 		m_heightField.setName("m_heightField");
 
-		this.add(m_widthLabel);
+		this.add(m_dimensionLabel);
 		this.add(m_widthField);
-		this.add(m_heightLabel);
 		this.add(m_heightField);
 
-		m_springLayout.addRow(new Component[] {m_widthLabel, m_widthField, m_heightLabel, m_heightField}, this);
+		m_springLayout.addRow(new Component[] {m_dimensionLabel, m_widthField, m_heightField}, this);
 
 		// Use original aspect ratio
 		m_useOriginalAspectRatio = new JCheckBox("Use original aspect ratio");
+		m_useOriginalAspectRatio.setSelected(true);
 
 		this.add(m_useOriginalAspectRatio);
 
@@ -123,10 +124,9 @@ public class PropertiesPanel extends JPanel
 	protected void addOffsetProperty(Dimension offset)
 	{
 		// Size
-		m_offsetXLabel = new JLabel("X:");
-		m_offsetYLabel = new JLabel("Y:");
-		m_offsetXField = new JTextField(String.valueOf(offset.width));
-		m_offsetYField = new JTextField(String.valueOf(offset.height));
+		m_offsetLabel = new KLabel("Offset:");
+		m_offsetXField = new KSmallTextField(String.valueOf(offset.width));
+		m_offsetYField = new KSmallTextField(String.valueOf(offset.height));
 
 		// Add ActionListener
 		m_offsetXField.addActionListener(new ActionListener() {
@@ -137,20 +137,19 @@ public class PropertiesPanel extends JPanel
 			public void actionPerformed(ActionEvent e) {updateOffset ();}
 		});
 
-		this.add(m_offsetXLabel);
+		this.add(m_offsetLabel);
 		this.add(m_offsetXField);
-		this.add(m_offsetYLabel);
 		this.add(m_offsetYField);
 
-		m_springLayout.addRow(new Component[] {m_offsetXLabel, m_offsetXField, m_offsetYLabel, m_offsetYField}, this);
+		m_springLayout.addRow(new Component[] {m_offsetLabel, m_offsetXField, m_offsetYField}, this);
 	}
 
 	public void addBlendProperty()
 	{
-		m_blendLabel = new JLabel("Blend: ");
+		m_blendLabel = new KLabel("Blend:");
 
 		String[] options = {"Normal", "Dissolve", "Multiply", "Screen", "Overwrite"};
-		m_blendBox = new JComboBox<String>(options);
+		m_blendBox = new KComboBox<String>(options);
 
 		m_blendBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateBlend();}

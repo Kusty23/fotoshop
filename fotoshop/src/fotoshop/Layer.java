@@ -40,14 +40,21 @@ public class Layer
 
 	public Layer(String name, BufferedImage image)
 	{
-		this(name);
+		this.m_name = name;
+		this.m_id = Layer.m_nextID;
+		Layer.m_nextID++;
 
 		this.m_original = image;
 		this.m_image = image;
 
+		this.m_blendMode = BlendingModes.NORMAL;
+		
+		this.m_offset = new Dimension(0,0);
+		
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
-		System.out.println(m_originalAspect);
+		
+		initLayer();
 	}
 
 	private void initLayer()
