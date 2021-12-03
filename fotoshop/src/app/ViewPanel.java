@@ -15,6 +15,9 @@ public class ViewPanel extends JPanel
 	public ViewPanel()
 	{
 		this.setBackground(new Color(212,212,212));
+		
+		this.addMouseListener(new ViewMouseListener());
+		this.addMouseMotionListener(new ViewMouseListener());
 
 		this.setVisible(true);
 	}

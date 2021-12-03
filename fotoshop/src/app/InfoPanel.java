@@ -19,17 +19,18 @@ public class InfoPanel extends JPanel
 
 	public static final String PROJECT_ID_STRING = "Project";
 
+	// Panels
 	private JPanel m_selectionPanel, m_panelContainer;
-
 	private CardLayout m_cardLayout;
-
 	private PropertiesPanel m_projectPropertiesPanel;
 
 	// Current Component
 	private static JComboBox<String> m_currentComponentBox;
 
+	// Layers
 	private static ArrayList<PropertiesPanel> m_layerPropertiesPanels;
 	private static ArrayList<Integer> m_layerIDs;
+	private static Layer m_currentLayer;
 
 	public InfoPanel()
 	{		
@@ -38,7 +39,7 @@ public class InfoPanel extends JPanel
 
 		InfoPanel.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
 		InfoPanel.m_layerIDs = new ArrayList<Integer>();
-
+		
 		initSelectionPanel();
 		initPanelContainer();
 	}
@@ -56,6 +57,11 @@ public class InfoPanel extends JPanel
 		return InfoPanel.m_layerIDs;
 	}
 
+	public Layer getCurrentLayer()
+	{
+		return InfoPanel.m_currentLayer;
+	}
+	
 	public void addLayer(Layer layer)
 	{
 		m_layerIDs.add(layer.getID());
@@ -77,6 +83,8 @@ public class InfoPanel extends JPanel
 		m_currentComponentBox.setSelectedItem(String.valueOf(layer.getID()));
 
 		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
+		
+		InfoPanel.m_currentLayer = layer;
 	}
 
 	private void initSelectionPanel()
@@ -106,6 +114,17 @@ public class InfoPanel extends JPanel
 	private void onCurrentComponentUpdate()
 	{
 		m_cardLayout.show(m_panelContainer, (String) m_currentComponentBox.getSelectedItem());
+		
+		String rawID = (String) m_currentComponentBox.getSelectedItem();
+		
+		if (rawID.equals(PROJECT_ID_STRING))
+		{
+			return;
+		}
+		
+		int id = Integer.parseInt(rawID);
+		
+		m_currentLayer = MainFrame.getProject().getLayerFromID(id);
 	}
 
 	public void initProjectPropertiesPanel()
