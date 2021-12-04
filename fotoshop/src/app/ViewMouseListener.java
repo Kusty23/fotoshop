@@ -8,9 +8,9 @@ import java.awt.event.MouseMotionListener;
 import fotoshop.Layer;
 
 public class ViewMouseListener implements MouseListener, MouseMotionListener
-{
-
-	private int m_pressedX, m_pressedY;
+{	
+	private int m_initialX, m_initialY;
+	private int m_initialOffsetX, m_initialOffsetY;
 	
 	@Override
 	public void mouseClicked(MouseEvent e) 
@@ -21,36 +21,21 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
-		m_pressedX = e.getX();
-		m_pressedY = e.getY();
+		m_initialX = e.getX();
+		m_initialY = e.getY();
 		
-		System.out.println("Press - " + e.getX() + "," + e.getY());
+		Layer layer = InfoPanel.getInstance().getCurrentLayer();
+		if (layer != null)
+		{
+			m_initialOffsetX = (int) layer.getOffset().getWidth();
+			m_initialOffsetY = (int) layer.getOffset().getHeight();
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
-		System.out.println("Mouse moved from " + m_pressedX + "," + m_pressedY + " to " + e.getX() + "," + e.getY());
 		
-		int m_releasedX = e.getX();
-		int m_releasedY = e.getY();
-		
-		Layer l = InfoPanel.getInstance().getCurrentLayer();
-		if (l != null)
-		{
-			Dimension curOffset = l.getOffset();
-			
-			int delX = m_releasedX - m_pressedX;
-			int delY = m_releasedY - m_pressedY;
-			
-			Dimension newOffset = new Dimension((int) (curOffset.getWidth() + delX) , (int) (curOffset.getHeight() + delY));
-			
-			l.setOffset(newOffset);
-			
-			System.out.println("Image offset now " + newOffset);
-			
-			ViewPanel.getInstance().repaint();
-		}
 	}
 
 	@Override
@@ -68,7 +53,24 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		//System.out.println("Drag - " + e.getX() + "," + e.getY());
+		int m_draggedX = e.getX();
+		int m_draggedY = e.getY();
+		
+		Layer layer = InfoPanel.getInstance().getCurrentLayer();
+		if (layer != null)
+		{		
+			int delX = m_draggedX - m_initialX;			
+			int delY = m_draggedY - m_initialY;
+			
+			int posX = (int) (m_initialOffsetX + delX);
+			int posY = (int) (m_initialOffsetY + delY);
+			
+			Dimension newOffset = new Dimension(posX, posY);
+			
+			layer.setOffset(newOffset);
+			
+			ViewPanel.getInstance().repaint();
+		}
 	}
 
 	@Override

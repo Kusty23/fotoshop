@@ -67,8 +67,6 @@ public class Layer
 		if (m_image == null)
 			return;
 
-		System.out.println("Rendering layer");
-
 		BufferedImage canvas = MainFrame.getProject().getCanvas();
 
 		int x = 0;

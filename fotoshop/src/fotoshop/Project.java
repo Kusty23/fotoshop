@@ -139,8 +139,6 @@ public class Project
 		//drawTransparencyGrid(g);
 		drawWhiteBackground(g);
 		
-		System.out.println("RENDERING");
-		
 		m_canvas = new BufferedImage(m_canvas.getWidth(), m_canvas.getHeight(), m_canvas.getType());
 		
 		for (Layer layer : this.m_layers)
