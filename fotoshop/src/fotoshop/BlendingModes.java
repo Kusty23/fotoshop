@@ -12,7 +12,6 @@ public class BlendingModes
 	
 	public final static int OVERWRITE = 4;
 	
-
 	private static Random m_random;
 
 	/*
@@ -84,6 +83,11 @@ public class BlendingModes
 
 	private static int multiply()
 	{
+		if (m_aImgAD == 0)
+		{
+			return m_imgB;
+		}
+		
 		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
 
 		double r_comp = m_rImgAD * m_rImgBD;
