@@ -19,6 +19,8 @@ public class Project
 	private ArrayList<Layer> m_layers;
 	private BufferedImage m_canvas;
 	
+	public int BRUSH_COLOR = 0;
+	
 	public Project(String name, int width, int height)
 	{
 		this.m_name = name;

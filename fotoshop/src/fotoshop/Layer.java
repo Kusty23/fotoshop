@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import app.InfoPanel;
 import app.MainFrame;
+import app.ViewPanel;
 
 public class Layer 
 {
@@ -29,7 +30,11 @@ public class Layer
 		this.m_id = Layer.m_nextID;
 		Layer.m_nextID++;
 
+		this.m_original = new BufferedImage(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height, BufferedImage.TYPE_INT_ARGB);
+		this.m_image = m_original;
+		
 		this.m_dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
+		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
 		this.m_offset = new Dimension(0,0);
 		
@@ -129,6 +134,30 @@ public class Layer
 		m_image = resizedImage;
 	}
 
+	public void brushAt(int x, int y, int color)
+	{
+		int radius = 100;
+		
+		for (int i=-radius; i<radius; i++)
+		{
+			for (int j=-radius; j<radius;j++)
+			{
+				if (Math.pow(i, 2) + Math.pow(j, 2) < radius)
+				{
+					if (x-i-ViewPanel.PADDING < 0 || x-i-ViewPanel.PADDING >= m_image.getWidth())
+						continue;
+					
+					if (y-j-ViewPanel.PADDING < 0 || y-j-ViewPanel.PADDING >= m_image.getHeight())
+						continue;
+					
+					m_image.setRGB(x - i - ViewPanel.PADDING, y - j - ViewPanel.PADDING, MainFrame.getProject().BRUSH_COLOR);
+				}
+			}
+		}
+		
+		ViewPanel.getInstance().repaint();
+	}
+	
 	public Dimension getDimension()
 	{
 		return this.m_dimension;

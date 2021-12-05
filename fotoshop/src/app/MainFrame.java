@@ -30,6 +30,8 @@ public class MainFrame extends JFrame
 		this.add(InfoPanel.getInstance(), BorderLayout.LINE_END);
 		
 		this.setVisible(true);
+		
+		createNewProject();
 	}
 	
 	public static MainFrame getInstance()
@@ -49,7 +51,7 @@ public class MainFrame extends JFrame
 	{
 		//NewProjectDialog npd = new NewProjectDialog(this);
 		
-		MainFrame.m_project = new Project("New Project", ViewPanel.getInstance().getWidth() - 20, ViewPanel.getInstance().getHeight() - 20);
+		MainFrame.m_project = new Project("New Project", ViewPanel.getInstance().getWidth() - 200, ViewPanel.getInstance().getHeight() - 20);
 		InfoPanel.getInstance().initProjectPropertiesPanel();
 		ViewPanel.getInstance().repaint();
 	}

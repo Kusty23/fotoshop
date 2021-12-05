@@ -1,4 +1,5 @@
 package app;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -9,13 +10,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 
+import fotoshop.BlendingModes;
+
 public class ToolBar extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
 
 	private static ToolBar m_toolbarPanelInstance;
 	
-	private JMenu m_fileMenu, m_layerMenu;
+	private JMenu m_fileMenu, m_layerMenu, m_brushMenu;
 	
 	public ToolBar()
 	{
@@ -51,6 +54,18 @@ public class ToolBar extends JMenuBar
 		});
 
 		m_layerMenu.add(importLayer);
+		
+		// Brush Menu
+		m_brushMenu = new JMenu("Brush");
+		this.add(m_brushMenu);
+
+		// New Layer Item
+		JMenuItem brushColor = new JMenuItem("Brush Color");
+		brushColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {onBrushColor();}
+		});
+
+		m_brushMenu.add(brushColor);
 	}
 
 	public static ToolBar getInstance()
@@ -107,5 +122,12 @@ public class ToolBar extends JMenuBar
 	private void onNewProject()
 	{
 		MainFrame.getInstance().createNewProject();
+	}
+	
+	private void onBrushColor()
+	{
+		MainFrame.getProject().BRUSH_COLOR = BlendingModes.packColor(255, 200, 150, 0);
+		
+		ColorSelectionWindow csw = new ColorSelectionWindow();
 	}
 }

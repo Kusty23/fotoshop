@@ -163,4 +163,10 @@ public class BlendingModes
 		cgb = m_gImgBD * m_aImgBD;
 		cbb = m_bImgBD * m_aImgBD;
 	}
+	
+	public static int packColor(int a, int r, int g, int b)
+	{
+		int p = a << 24 | r << 16 | g << 8 | b;
+		return p;
+	}
 }

@@ -11,6 +11,8 @@ public class ViewPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	
 	private static ViewPanel m_viewPanelInstance;
+	
+	public static final int PADDING = 10;
 
 	public ViewPanel()
 	{
@@ -41,7 +43,7 @@ public class ViewPanel extends JPanel
 		if (p != null)
 		{		
 			p.render(g);
-			g.drawImage(p.getCanvas(), 10, 10, null);
+			g.drawImage(p.getCanvas(), PADDING, PADDING, null);
 		}
 	}
 }
