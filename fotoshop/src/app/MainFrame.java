@@ -24,10 +24,10 @@ public class MainFrame extends JFrame
 		this.setSize(new Dimension(1000, 700));
 		
 		this.add(ToolBar.getInstance(), BorderLayout.PAGE_START);
-		
-		this.add(ViewPanel.getInstance(), BorderLayout.CENTER);
-		
+		this.add(ViewPanel.getInstance(), BorderLayout.CENTER);	
 		this.add(InfoPanel.getInstance(), BorderLayout.LINE_END);
+		
+		this.addKeyListener(new MainKeyListener());
 		
 		this.setVisible(true);
 		

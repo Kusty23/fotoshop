@@ -14,19 +14,36 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	private int m_initialOffsetX, m_initialOffsetY;
 
 	private static boolean m_mouseDown = false;
+	
+	private static ViewMouseListener m_vmlInstance;
 
 	private static int MOUSE_MODE;
 
-	private static final int MOVE_MODE = 0;
-	private static final int BRUSH_MODE = 1;
+	public static final int MOVE_MODE = 0;
+	public static final int BRUSH_MODE = 1;
 
-	public ViewMouseListener()
+	private ViewMouseListener()
 	{
 		super();
 
-		MOUSE_MODE = BRUSH_MODE;
+		MOUSE_MODE = MOVE_MODE;
 	}
 
+	public static ViewMouseListener getInstance()
+	{
+		if (m_vmlInstance == null)
+			m_vmlInstance = new ViewMouseListener();
+		
+		return m_vmlInstance;
+	}
+	
+	public static void setMouseMode(int mode)
+	{
+		MOUSE_MODE = mode;
+		
+		System.out.println("SET TO " + mode);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
@@ -56,6 +73,8 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	public void mouseReleased(MouseEvent e) 
 	{
 		m_mouseDown = false;
+		
+		MainFrame.getInstance().requestFocus();
 	}
 
 	@Override

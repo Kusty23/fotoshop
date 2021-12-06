@@ -6,12 +6,12 @@ public class BlendingModes
 {
 	public final static int NORMAL = 0;
 	public final static int DISSOLVE = 1;
-	
+
 	public final static int MULTIPLY = 2;
 	public final static int SCREEN = 3;
-	
+
 	public final static int OVERWRITE = 4;
-	
+
 	private static Random m_random;
 
 	/*
@@ -29,15 +29,18 @@ public class BlendingModes
 	private static double cra, cga, cba;
 	private static double crb, cgb, cbb;
 
-	public static int combine(int imgb, int imga, int mode)
+	public static int combinePixel(int imgb, int imga, int mode, double alpha)
 	{
 		m_imgB = imgb;
 		m_imgA = imga;
-		
+
 		if (m_random == null)
 			m_random = new Random();
 
 		loadRGBA();
+		
+		m_aImgA *= alpha;
+		
 		convertToDoubles();
 		preMultiply();
 
@@ -66,7 +69,7 @@ public class BlendingModes
 		int g = (int) (g_comp * 255);
 		int b = (int) (b_comp * 255);
 
-		int p = a << 24 | r << 16 | g << 8 | b;
+		int p = packColor(a, r, g, b);
 
 		return p;
 	}
@@ -74,7 +77,7 @@ public class BlendingModes
 	private static int dissolve()
 	{
 		double x = m_random.nextDouble();
-		
+
 		if (x < m_aImgAD)
 			return m_imgA;
 		else
@@ -87,7 +90,7 @@ public class BlendingModes
 		{
 			return m_imgB;
 		}
-		
+
 		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
 
 		double r_comp = m_rImgAD * m_rImgBD;
@@ -99,11 +102,11 @@ public class BlendingModes
 		int g = (int) (g_comp * 255);
 		int b = (int) (b_comp * 255);
 
-		int p = a << 24 | r << 16 | g << 8 | b;
+		int p = packColor(a, r, g, b);
 
 		return p;
 	}
-	
+
 	private static int screen()
 	{
 		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
@@ -121,10 +124,10 @@ public class BlendingModes
 
 		return p;
 	}
-	
+
 	private static int overwrite()
 	{
-		return m_imgA;
+		return packColor(m_aImgA, m_rImgA, m_gImgA, m_bImgA);
 	}
 
 	private static void loadRGBA()
@@ -163,7 +166,7 @@ public class BlendingModes
 		cgb = m_gImgBD * m_aImgBD;
 		cbb = m_bImgBD * m_aImgBD;
 	}
-	
+
 	public static int packColor(int a, int r, int g, int b)
 	{
 		int p = a << 24 | r << 16 | g << 8 | b;

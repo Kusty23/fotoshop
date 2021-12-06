@@ -1,5 +1,5 @@
 package app;
-import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -129,5 +129,7 @@ public class ToolBar extends JMenuBar
 		MainFrame.getProject().BRUSH_COLOR = BlendingModes.packColor(255, 200, 150, 0);
 		
 		ColorSelectionWindow csw = new ColorSelectionWindow();
+		
+		csw.setAlwaysOnTop(true);
 	}
 }

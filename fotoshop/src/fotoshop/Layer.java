@@ -104,9 +104,9 @@ public class Layer
 				int compositeRGB;
 
 				if (m_id != 0)
-				compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, m_blendMode);
+				compositeRGB = BlendingModes.combinePixel(canvasRGB, imageRGB, m_blendMode, .5);
 				else
-					compositeRGB = BlendingModes.combine(canvasRGB, imageRGB, BlendingModes.NORMAL);
+					compositeRGB = BlendingModes.combinePixel(canvasRGB, imageRGB, BlendingModes.NORMAL, 1);
 
 				canvas.setRGB(xO, yO, compositeRGB);
 				
@@ -144,13 +144,16 @@ public class Layer
 			{
 				if (Math.pow(i, 2) + Math.pow(j, 2) < radius)
 				{
-					if (x-i-ViewPanel.PADDING < 0 || x-i-ViewPanel.PADDING >= m_image.getWidth())
+					int x0 = x - i - ViewPanel.PADDING + m_offset.width;
+					int y0 = y - j - ViewPanel.PADDING + m_offset.height;
+					
+					if (x0 < 0 || x0 >= m_image.getWidth())
 						continue;
 					
-					if (y-j-ViewPanel.PADDING < 0 || y-j-ViewPanel.PADDING >= m_image.getHeight())
+					if (y0 < 0 || y0 >= m_image.getHeight())
 						continue;
 					
-					m_image.setRGB(x - i - ViewPanel.PADDING, y - j - ViewPanel.PADDING, MainFrame.getProject().BRUSH_COLOR);
+					m_image.setRGB(x0, y0, MainFrame.getProject().BRUSH_COLOR);
 				}
 			}
 		}

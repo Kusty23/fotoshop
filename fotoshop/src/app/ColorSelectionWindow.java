@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,6 +26,8 @@ public class ColorSelectionWindow extends JDialog
             public void stateChanged(ChangeEvent arg0) {onUpdateColor();}
         });
 		
+		this.m_cc.setPreviewPanel(new JPanel());
+		
 		this.add(m_cc);
 		
 		this.setSize(new Dimension(700, 400));
@@ -37,7 +40,6 @@ public class ColorSelectionWindow extends JDialog
 		Color color = m_cc.getColor();
 		
 		MainFrame.getProject().BRUSH_COLOR = BlendingModes.packColor(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
-		System.out.println("brush changed to " + color);
 	}
 	
 	public Color getColor()
