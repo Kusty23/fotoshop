@@ -5,7 +5,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import app.InfoPanel;
-import app.MainFrame;
 import app.ViewPanel;
 
 public class Layer 
@@ -32,10 +31,10 @@ public class Layer
 		this.m_id = Layer.m_nextID;
 		Layer.m_nextID++;
 
-		this.m_original = new BufferedImage(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height, BufferedImage.TYPE_INT_ARGB);
+		this.m_original = new BufferedImage(Project.getInstance().getDimension().width, Project.getInstance().getDimension().height, BufferedImage.TYPE_INT_ARGB);
 		this.m_image = m_original;
 		
-		this.m_dimension = new Dimension(MainFrame.getProject().getDimension().width, MainFrame.getProject().getDimension().height);
+		this.m_dimension = new Dimension(Project.getInstance().getDimension().width, Project.getInstance().getDimension().height);
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
 		this.m_offset = new Dimension(0,0);
@@ -78,7 +77,7 @@ public class Layer
 		if (m_image == null)
 			return;
 
-		BufferedImage canvas = MainFrame.getProject().getCanvas();
+		BufferedImage canvas = Project.getInstance().getCanvas();
 
 		int x = 0;
 		int xO = x + m_offset.width;
@@ -159,7 +158,7 @@ public class Layer
 					if (y0 < 0 || y0 >= m_image.getHeight())
 						continue;
 					
-					m_image.setRGB(x0, y0, MainFrame.getProject().BRUSH_COLOR);
+					m_image.setRGB(x0, y0, Project.getInstance().BRUSH_COLOR);
 				}
 			}
 		}

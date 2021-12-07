@@ -15,6 +15,7 @@ import KSwing.KPanel;
 import KSwing.KSpringLayout;
 import KSwing.KSmallTextField;
 import fotoshop.Layer;
+import fotoshop.Project;
 
 public class PropertiesPanel extends KPanel
 {
@@ -202,7 +203,7 @@ public class PropertiesPanel extends KPanel
 
 		if (m_layer == null)
 		{
-			MainFrame.getProject().setName(name);
+			Project.getInstance().setName(name);
 		}
 		else
 		{
@@ -235,7 +236,7 @@ public class PropertiesPanel extends KPanel
 
 		if (m_layer == null)
 		{
-			MainFrame.getProject().setDimension(new Dimension(x,y));
+			Project.getInstance().setDimension(new Dimension(x,y));
 		}
 		else
 		{

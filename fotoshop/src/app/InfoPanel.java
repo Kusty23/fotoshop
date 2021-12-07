@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import KSwing.KPanel;
 import fotoshop.Layer;
+import fotoshop.Project;
 
 public class InfoPanel extends KPanel
 {
@@ -133,7 +134,7 @@ public class InfoPanel extends KPanel
 		
 		int id = Integer.parseInt(rawID);
 		
-		m_currentLayer = MainFrame.getProject().getLayerFromID(id);
+		m_currentLayer = Project.getInstance().getLayerFromID(id);
 	}
 
 	public void initProjectPropertiesPanel()
@@ -144,7 +145,7 @@ public class InfoPanel extends KPanel
 		m_currentComponentBox.addItem(PROJECT_ID_STRING);
 		
 		m_projectPropertiesPanel.addNameProperty("Project");
-		m_projectPropertiesPanel.addDimensionProperty(MainFrame.getProject().getDimension());
+		m_projectPropertiesPanel.addDimensionProperty(Project.getInstance().getDimension());
 		
 		m_cardLayout.show(m_panelContainer, PROJECT_ID_STRING);
 	}

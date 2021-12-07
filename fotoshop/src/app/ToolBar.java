@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 
 import fotoshop.BlendingModes;
+import fotoshop.Project;
 
 public class ToolBar extends JMenuBar
 {
@@ -78,7 +79,7 @@ public class ToolBar extends JMenuBar
 	
 	private void onNewLayer()
 	{
-		MainFrame.getProject().newLayer();
+		Project.getInstance().newLayer();
 	}
 
 	private void onImportLayer()
@@ -115,7 +116,7 @@ public class ToolBar extends JMenuBar
 		{
 			File file = fileChooser.getSelectedFile();
 			System.out.println("Opening " + file.getAbsolutePath());
-			MainFrame.getProject().importLayer(file);
+			Project.getInstance().importLayer(file);
 		}
 	}
 	
@@ -126,7 +127,7 @@ public class ToolBar extends JMenuBar
 	
 	private void onBrushColor()
 	{
-		MainFrame.getProject().BRUSH_COLOR = BlendingModes.packColor(255, 200, 150, 0);
+		Project.getInstance().BRUSH_COLOR = BlendingModes.packColor(255, 200, 150, 0);
 		
 		ColorSelectionWindow csw = new ColorSelectionWindow();
 		

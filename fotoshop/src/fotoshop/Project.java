@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import app.MainFrame;
+import app.ViewPanel;
 
 public class Project 
 {
+	private static Project m_projectInstance;
+	
 	private String m_name;
 	private Dimension m_dimension;
 	
@@ -21,14 +24,22 @@ public class Project
 	
 	public int BRUSH_COLOR = 0;
 	
-	public Project(String name, int width, int height)
+	private Project()
 	{
-		this.m_name = name;
-		this.m_dimension = new Dimension(width, height);
+		this.m_name = "New Project";
+		this.m_dimension = new Dimension(ViewPanel.getInstance().getWidth() - 100, ViewPanel.getInstance().getHeight());
 		
-		this.m_canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.m_canvas = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_ARGB);
 		
 		this.m_layers = new ArrayList<Layer>();
+	}
+	
+	public static Project getInstance()
+	{
+		if (m_projectInstance == null)
+			m_projectInstance = new Project();
+		
+		return m_projectInstance;
 	}
 	
 	public BufferedImage getCanvas()
@@ -56,6 +67,11 @@ public class Project
 	public void setName(String name)
 	{
 		this.m_name = name;
+	}
+	
+	public static void createNewProject()
+	{
+		m_projectInstance = new Project();
 	}
 	
 	public Layer getLayerFromID(int id)
@@ -97,33 +113,6 @@ public class Project
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void drawTransparencyGrid(Graphics g)
-	{
-		int buffer = 10;
-		
-		int x = buffer;
-		int checkSize = 5;
-		boolean color = true;
-		boolean startColor = true;
-		while (x < this.getDimension().width)
-		{
-			int y = buffer;
-			
-			startColor = !startColor;
-			color = startColor;
-			
-			while (y < this.getDimension().height)
-			{
-				g.setColor( color ? Color.WHITE : Color.LIGHT_GRAY);
-				g.fillRect(x, y, checkSize, checkSize);
-				y += checkSize;
-				color = !color;
-			}
-			x += checkSize;
-		}
-	}
-	
 	private void drawWhiteBackground(Graphics g)
 	{
 		g.setColor(Color.WHITE);
@@ -138,7 +127,6 @@ public class Project
 
 	public void render(Graphics g)
 	{
-		//drawTransparencyGrid(g);
 		drawWhiteBackground(g);
 		
 		m_canvas = new BufferedImage(m_canvas.getWidth(), m_canvas.getHeight(), m_canvas.getType());

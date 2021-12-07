@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fotoshop.BlendingModes;
+import fotoshop.Project;
 
 public class ColorSelectionWindow extends JDialog
 {
@@ -39,7 +40,7 @@ public class ColorSelectionWindow extends JDialog
 	{
 		Color color = m_cc.getColor();
 		
-		MainFrame.getProject().BRUSH_COLOR = BlendingModes.packColor(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
+		Project.getInstance().BRUSH_COLOR = BlendingModes.packColor(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
 	}
 	
 	public Color getColor()

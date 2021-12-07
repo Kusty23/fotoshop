@@ -12,8 +12,6 @@ public class MainFrame extends KFrame
 
 	private static MainFrame m_mainFrameInstance;
 
-	private static Project m_project;
-
 	private MainFrame()
 	{
 		super();
@@ -56,16 +54,11 @@ public class MainFrame extends KFrame
 		return m_mainFrameInstance;
 	}
 
-	public static Project getProject()
-	{
-		return m_project;
-	}
-
 	public void createNewProject()
 	{
 		//NewProjectDialog npd = new NewProjectDialog(this);
-
-		MainFrame.m_project = new Project("New Project", ViewPanel.getInstance().getWidth() - 200, ViewPanel.getInstance().getHeight() - 20);
+		Project.createNewProject();
+		
 		InfoPanel.getInstance().initProjectPropertiesPanel();
 		ViewPanel.getInstance().repaint();
 	}
