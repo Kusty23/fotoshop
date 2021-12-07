@@ -6,17 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import KSwing.KComboBox;
 import KSwing.KLabel;
 import KSwing.KLargeTextField;
+import KSwing.KPanel;
 import KSwing.KSpringLayout;
 import KSwing.KSmallTextField;
 import fotoshop.Layer;
 
-public class PropertiesPanel extends JPanel
+public class PropertiesPanel extends KPanel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -50,10 +50,28 @@ public class PropertiesPanel extends JPanel
 
 	public PropertiesPanel()
 	{		
+
+	}
+
+	@Override
+	public void initialize() 
+	{
+
+	}
+
+	@Override
+	public void createComponents() 
+	{
+
+	}
+
+	@Override
+	public void arrangeComponents() 
+	{
 		m_springLayout = new KSpringLayout();
 		this.setLayout(m_springLayout);
 	}
-
+	
 	public Component getLowestComponent()
 	{
 		return this.m_lowestComponent;

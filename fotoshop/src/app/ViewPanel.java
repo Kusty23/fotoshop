@@ -2,11 +2,10 @@ package app;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JPanel;
-
+import KSwing.KPanel;
 import fotoshop.Project;
 
-public class ViewPanel extends JPanel
+public class ViewPanel extends KPanel
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -16,14 +15,30 @@ public class ViewPanel extends JPanel
 
 	public ViewPanel()
 	{
+		
+	}
+
+	@Override
+	public void initialize() 
+	{
 		this.setBackground(new Color(212,212,212));
 		
 		this.addMouseListener(ViewMouseListener.getInstance());
 		this.addMouseMotionListener(ViewMouseListener.getInstance());
-
-		this.setVisible(true);
 	}
 
+	@Override
+	public void createComponents() 
+	{
+
+	}
+
+	@Override
+	public void arrangeComponents() 
+	{
+
+	}
+	
 	public static ViewPanel getInstance()
 	{
 		if (m_viewPanelInstance == null)

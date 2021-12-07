@@ -20,21 +20,21 @@ public class BlendingModes
 	 * Image A is the above image
 	 * Image B is the lower image
 	 */
-	private static int m_imgB, m_imgA;
+	private static int pixelB, pixelA;
 
 	private static int m_rImgB, m_gImgB, m_bImgB, m_aImgB;
 	private static int m_rImgA, m_gImgA, m_bImgA, m_aImgA;
 
-	private static double m_rImgBD, m_gImgBD, m_bImgBD, m_aImgBD;
-	private static double m_rImgAD, m_gImgAD, m_bImgAD, m_aImgAD;
+	private static double rb, gb, bb, ab;
+	private static double ra, ga, ba, aa;
 
 	private static double cra, cga, cba;
 	private static double crb, cgb, cbb;
 
 	public static int combinePixel(int imgA, int imgB, int mode, double alphaA)
 	{
-		m_imgA = imgA;
-		m_imgB = imgB;
+		pixelA = imgA;
+		pixelB = imgB;
 
 		if (m_random == null)
 			m_random = new Random();
@@ -44,7 +44,6 @@ public class BlendingModes
 		m_aImgA *= alphaA;
 		
 		convertToDoubles();
-		preMultiply();
 
 		switch(mode)
 		{
@@ -62,109 +61,90 @@ public class BlendingModes
 
 	private static int normal()
 	{		
-		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		double a_comp = aa + (ab * (1.0 - aa));
 
-		double r_comp = (cra + (crb * (1.0 - m_aImgAD))) / a_comp;
-		double g_comp = (cga + (cgb * (1.0 - m_aImgAD))) / a_comp;
-		double b_comp = (cba + (cbb * (1.0 - m_aImgAD))) / a_comp;
+		preMultiply();
+		
+		double r_comp = (cra + (crb * (1.0 - aa))) / a_comp;
+		double g_comp = (cga + (cgb * (1.0 - aa))) / a_comp;
+		double b_comp = (cba + (cbb * (1.0 - aa))) / a_comp;
 
-		int a = (int) (a_comp * 255);
-		int r = (int) (r_comp * 255);
-		int g = (int) (g_comp * 255);
-		int b = (int) (b_comp * 255);
-
-		int p = packColor(a, r, g, b);
-
-		return p;
+		return packColor(a_comp, r_comp, g_comp, b_comp);
 	}
 
 	private static int dissolve()
 	{
 		double x = m_random.nextDouble();
 
-		if (x < m_aImgAD)
-			return m_imgA;
+		if (x < aa)
+			return pixelA;
 		else
-			return m_imgB;
+			return pixelB;
 	}
 
 	private static int multiply()
 	{
-		if (m_aImgAD == 0)
+		if (aa == 0)
 		{
-			return m_imgB;
+			return pixelB;
 		}
 
-		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		double a_comp = aa + (ab * (1.0 - aa));
 
-		double r_comp = m_rImgAD * m_rImgBD;
-		double g_comp = m_gImgAD * m_gImgBD;
-		double b_comp = m_bImgAD * m_bImgBD;
+		double r_comp = ra * rb;
+		double g_comp = ga * gb;
+		double b_comp = ba * bb;
 
-		int a = (int) (a_comp * 255);
-		int r = (int) (r_comp * 255);
-		int g = (int) (g_comp * 255);
-		int b = (int) (b_comp * 255);
-
-		int p = packColor(a, r, g, b);
-
-		return p;
+		return packColor(a_comp, r_comp, g_comp, b_comp);
 	}
 
 	private static int screen()
 	{
-		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		double a_comp = aa + (ab * (1.0 - aa));
 
-		double r_comp = 1 - (1 - m_rImgAD) * (1 - m_rImgBD);
-		double g_comp = 1 - (1 - m_gImgAD) * (1 - m_gImgBD);
-		double b_comp = 1 - (1 - m_bImgAD) * (1 - m_bImgBD);
+		double r_comp = 1 - (1 - ra) * (1 - rb);
+		double g_comp = 1 - (1 - ga) * (1 - gb);
+		double b_comp = 1 - (1 - ba) * (1 - bb);
 
-		int a = (int) (a_comp * 255);
-		int r = (int) (r_comp * 255);
-		int g = (int) (g_comp * 255);
-		int b = (int) (b_comp * 255);
-
-		int p = a << 24 | r << 16 | g << 8 | b;
-
-		return p;
+		return packColor(a_comp, r_comp, g_comp, b_comp);
 	}
 
 	private static int colorBurn()
 	{
-		if (m_aImgAD == 0)
+		if (aa == 0)
 		{
-			return m_imgB;
+			return pixelB;
 		}
-		if (m_aImgBD == 0)
+		if (ab == 0)
 		{
-			return m_imgA;
+			return pixelA;
 		}
 		
-		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		double a_comp = aa + (ab * (1.0 - aa));
 		
-		double r_comp = 1 - ((1.0 - m_rImgBD) / m_rImgAD);
-		double g_comp = 1 - ((1.0 - m_gImgBD) / m_gImgAD);
-		double b_comp = 1 - ((1.0 - m_bImgBD) / m_bImgAD);
+		double r_comp = 1 - ((1.0 - rb) / ra);
+		double g_comp = 1 - ((1.0 - gb) / ga);
+		double b_comp = 1 - ((1.0 - bb) / ba);
 
 		return packColor(a_comp, r_comp, g_comp, b_comp);
 	}
 	
 	private static int colorDodge()
 	{
-		if (m_aImgAD == 0)
+		if (aa == 0)
 		{
-			return m_imgB;
+			return pixelB;
 		}
-		if (m_aImgBD == 0)
+		if (ab == 0)
 		{
-			return m_imgA;
+			return pixelA;
 		}
 		
-		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		double a_comp = aa + (ab * (1.0 - aa));
 		
-		double r_comp = m_rImgBD / (1.0 - m_rImgAD);
-		double g_comp = m_gImgBD / (1.0 - m_gImgAD);
-		double b_comp = m_bImgBD / (1.0 - m_bImgAD);
+		double r_comp = rb / (1.0 - ra);
+		double g_comp = gb / (1.0 - ga);
+		double b_comp = bb / (1.0 - ba);
 
 		return packColor(a_comp, r_comp, g_comp, b_comp);
 	}
@@ -176,39 +156,39 @@ public class BlendingModes
 
 	private static void loadRGBA()
 	{
-		m_aImgB = (m_imgB>>24) & 0xff;
-		m_rImgB = (m_imgB>>16) & 0xff;
-		m_gImgB = (m_imgB>>8) & 0xff;
-		m_bImgB = m_imgB & 0xff;
+		m_aImgB = (pixelB>>24) & 0xff;
+		m_rImgB = (pixelB>>16) & 0xff;
+		m_gImgB = (pixelB>>8) & 0xff;
+		m_bImgB = pixelB & 0xff;
 
-		m_aImgA = (m_imgA>>24) & 0xff;
-		m_rImgA = (m_imgA>>16) & 0xff;
-		m_gImgA = (m_imgA>>8) & 0xff;
-		m_bImgA = m_imgA & 0xff;
+		m_aImgA = (pixelA>>24) & 0xff;
+		m_rImgA = (pixelA>>16) & 0xff;
+		m_gImgA = (pixelA>>8) & 0xff;
+		m_bImgA = pixelA & 0xff;
 	}
 
 	private static void convertToDoubles()
 	{
-		m_aImgBD = m_aImgB / 255.0;
-		m_rImgBD = m_rImgB / 255.0;
-		m_gImgBD = m_gImgB / 255.0;
-		m_bImgBD = m_bImgB / 255.0;
+		ab = m_aImgB / 255.0;
+		rb = m_rImgB / 255.0;
+		gb = m_gImgB / 255.0;
+		bb = m_bImgB / 255.0;
 
-		m_aImgAD = m_aImgA / 255.0;
-		m_rImgAD = m_rImgA / 255.0;
-		m_gImgAD = m_gImgA / 255.0;
-		m_bImgAD = m_bImgA / 255.0;
+		aa = m_aImgA / 255.0;
+		ra = m_rImgA / 255.0;
+		ga = m_gImgA / 255.0;
+		ba = m_bImgA / 255.0;
 	}
 
 	private static void preMultiply()
 	{
-		cra = m_rImgAD * m_aImgAD;
-		cga = m_gImgAD * m_aImgAD;
-		cba = m_bImgAD * m_aImgAD;
+		cra = ra * aa;
+		cga = ga * aa;
+		cba = ba * aa;
 
-		crb = m_rImgBD * m_aImgBD;
-		cgb = m_gImgBD * m_aImgBD;
-		cbb = m_bImgBD * m_aImgBD;
+		crb = rb * ab;
+		cgb = gb * ab;
+		cbb = bb * ab;
 	}
 
 	public static int packColor(int a, int r, int g, int b)
@@ -219,12 +199,12 @@ public class BlendingModes
 	
 	public static int packColor(double a, double r, double g, double b)
 	{
-		int aa = clamp((int) (a * 255), 0, 255);
+		int aaa = clamp((int) (a * 255), 0, 255);
 		int rr = clamp((int) (r * 255), 0, 255);
 		int gg = clamp((int) (g * 255), 0, 255);
 		int bb = clamp((int) (b * 255), 0, 255);			
 		
-		return packColor(aa, rr, gg, bb);
+		return packColor(aaa, rr, gg, bb);
 	}
 	
 	public static int clamp(int value, int min, int max) 

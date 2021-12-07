@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import KSwing.KPanel;
 import fotoshop.Layer;
 
-public class InfoPanel extends JPanel
+public class InfoPanel extends KPanel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -34,14 +35,45 @@ public class InfoPanel extends JPanel
 
 	public InfoPanel()
 	{		
-		this.setBackground(new Color(100,100,100));
-		this.setLayout(new BorderLayout());
 
+	}
+
+	@Override
+	public void initialize() 
+	{
+		this.setBackground(new Color(100,100,100));
+		
 		InfoPanel.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
 		InfoPanel.m_layerIDs = new ArrayList<Integer>();
+	}
+
+	@Override
+	public void createComponents() 
+	{
+		// Selection Panel
+		m_selectionPanel = new JPanel();
+
+		m_currentComponentBox = new JComboBox<String>();
+		m_selectionPanel.add(m_currentComponentBox);
+
+		m_currentComponentBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {onCurrentComponentUpdate();}
+		});
 		
-		initSelectionPanel();
-		initPanelContainer();
+		// Panel Container
+		m_panelContainer = new JPanel();
+		
+		this.m_cardLayout = new CardLayout();
+		m_panelContainer.setLayout(m_cardLayout);
+	}
+
+	@Override
+	public void arrangeComponents() 
+	{
+		this.setLayout(new BorderLayout());
+		
+		this.add(m_selectionPanel, BorderLayout.PAGE_START);
+		this.add(m_panelContainer, BorderLayout.CENTER);
 	}
 
 	public static InfoPanel getInstance()
@@ -86,30 +118,6 @@ public class InfoPanel extends JPanel
 		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
 		
 		InfoPanel.m_currentLayer = layer;
-	}
-
-	private void initSelectionPanel()
-	{
-		m_selectionPanel = new JPanel();
-		this.add(m_selectionPanel, BorderLayout.PAGE_START);
-
-		// Combo Box
-		m_currentComponentBox = new JComboBox<String>();
-		m_selectionPanel.add(m_currentComponentBox);
-
-		// Add ActionListener
-		m_currentComponentBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onCurrentComponentUpdate();}
-		});
-	}
-	
-	private void initPanelContainer()
-	{
-		m_panelContainer = new JPanel();
-		this.add(m_panelContainer);
-		
-		this.m_cardLayout = new CardLayout();
-		m_panelContainer.setLayout(m_cardLayout);
 	}
 
 	private void onCurrentComponentUpdate()
