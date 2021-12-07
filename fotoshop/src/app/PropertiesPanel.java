@@ -37,6 +37,10 @@ public class PropertiesPanel extends JPanel
 	private KLabel m_offsetLabel;
 	private KSmallTextField m_offsetXField, m_offsetYField;
 
+	// Opacity
+	private KLabel m_opacityLabel;
+	private KLargeTextField m_opacityField;
+	
 	// Blend Mode
 	private KLabel m_blendLabel;
 	private KComboBox<String> m_blendBox;
@@ -123,12 +127,10 @@ public class PropertiesPanel extends JPanel
 
 	protected void addOffsetProperty(Dimension offset)
 	{
-		// Size
 		m_offsetLabel = new KLabel("Offset:");
 		m_offsetXField = new KSmallTextField(String.valueOf(offset.width));
 		m_offsetYField = new KSmallTextField(String.valueOf(offset.height));
 
-		// Add ActionListener
 		m_offsetXField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateOffset();}
 		});
@@ -144,11 +146,26 @@ public class PropertiesPanel extends JPanel
 		m_springLayout.addRow(new Component[] {m_offsetLabel, m_offsetXField, m_offsetYField}, this);
 	}
 
+	public void addOpacityProperty(double opacity)
+	{
+		m_opacityLabel = new KLabel("Opacity:");
+		m_opacityField = new KLargeTextField(String.valueOf(opacity));
+		
+		m_opacityField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {updateOpacity();}
+		});
+		
+		this.add(m_opacityLabel);
+		this.add(m_opacityField);
+
+		m_springLayout.addRow(new Component[] {m_opacityLabel, m_opacityField}, this);
+	}
+	
 	public void addBlendProperty()
 	{
 		m_blendLabel = new KLabel("Blend:");
 
-		String[] options = {"Normal", "Dissolve", "Multiply", "Screen", "Overwrite"};
+		String[] options = {"Normal", "Dissolve", "Multiply", "Screen", "Color Burn", "Color Dodge", "Overwrite"};
 		m_blendBox = new KComboBox<String>(options);
 
 		m_blendBox.addActionListener(new ActionListener() {
@@ -217,6 +234,15 @@ public class PropertiesPanel extends JPanel
 
 		m_layer.setOffset(new Dimension(x,y));
 
+		ViewPanel.getInstance().repaint();
+	}
+	
+	private void updateOpacity()
+	{
+		double opacity = Double.parseDouble(m_opacityField.getText());
+		
+		m_layer.setOpacity(opacity);
+		
 		ViewPanel.getInstance().repaint();
 	}
 	

@@ -22,6 +22,8 @@ public class Layer
 
 	private Dimension m_offset;
 	
+	private double m_opacity;
+	
 	private int m_blendMode;
 
 	public Layer(String name)
@@ -37,6 +39,8 @@ public class Layer
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
 		this.m_offset = new Dimension(0,0);
+		
+		this.m_opacity = 1.0;
 		
 		this.m_blendMode = BlendingModes.NORMAL;
 
@@ -55,6 +59,8 @@ public class Layer
 		this.m_blendMode = BlendingModes.NORMAL;
 		
 		this.m_offset = new Dimension(0,0);
+		
+		this.m_opacity = 1.0;
 		
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
@@ -104,9 +110,9 @@ public class Layer
 				int compositeRGB;
 
 				if (m_id != 0)
-				compositeRGB = BlendingModes.combinePixel(canvasRGB, imageRGB, m_blendMode, .5);
+				compositeRGB = BlendingModes.combinePixel(imageRGB, canvasRGB, m_blendMode, m_opacity);
 				else
-					compositeRGB = BlendingModes.combinePixel(canvasRGB, imageRGB, BlendingModes.NORMAL, 1);
+					compositeRGB = BlendingModes.combinePixel(imageRGB, canvasRGB, BlendingModes.NORMAL, m_opacity);
 
 				canvas.setRGB(xO, yO, compositeRGB);
 				
@@ -144,8 +150,8 @@ public class Layer
 			{
 				if (Math.pow(i, 2) + Math.pow(j, 2) < radius)
 				{
-					int x0 = x - i - ViewPanel.PADDING + m_offset.width;
-					int y0 = y - j - ViewPanel.PADDING + m_offset.height;
+					int x0 = x - i - ViewPanel.PADDING - m_offset.width;
+					int y0 = y - j - ViewPanel.PADDING - m_offset.height;
 					
 					if (x0 < 0 || x0 >= m_image.getWidth())
 						continue;
@@ -211,6 +217,16 @@ public class Layer
 	public void setImage(BufferedImage image)
 	{
 		this.m_image = image;
+	}
+	
+	public double getOpacity()
+	{
+		return this.m_opacity;
+	}
+	
+	public void setOpacity(double opacity)
+	{
+		this.m_opacity = opacity;
 	}
 	
 	public int getBlendMode()

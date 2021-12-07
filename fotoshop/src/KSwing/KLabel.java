@@ -9,7 +9,7 @@ public class KLabel extends JLabel
 {
 	private static final long serialVersionUID = 1L;
 	
-	private final int WIDTH = 45;
+	private final int WIDTH = 50;
 
 	public KLabel(String text)
 	{

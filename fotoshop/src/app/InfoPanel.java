@@ -73,6 +73,7 @@ public class InfoPanel extends JPanel
 		newLayerPanel.addNameProperty(layer.getName());
 		newLayerPanel.addDimensionProperty(layer.getDimension());
 		newLayerPanel.addOffsetProperty(layer.getOffset());
+		newLayerPanel.addOpacityProperty(layer.getOpacity());
 		newLayerPanel.addBlendProperty();
 
 		m_layerPropertiesPanels.add(newLayerPanel);

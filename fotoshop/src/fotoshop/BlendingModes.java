@@ -9,8 +9,10 @@ public class BlendingModes
 
 	public final static int MULTIPLY = 2;
 	public final static int SCREEN = 3;
+	public final static int COLOR_BURN = 4;
+	public final static int COLOR_DODGE = 5;
 
-	public final static int OVERWRITE = 4;
+	public final static int OVERWRITE = 6;
 
 	private static Random m_random;
 
@@ -29,17 +31,17 @@ public class BlendingModes
 	private static double cra, cga, cba;
 	private static double crb, cgb, cbb;
 
-	public static int combinePixel(int imgb, int imga, int mode, double alpha)
+	public static int combinePixel(int imgA, int imgB, int mode, double alphaA)
 	{
-		m_imgB = imgb;
-		m_imgA = imga;
+		m_imgA = imgA;
+		m_imgB = imgB;
 
 		if (m_random == null)
 			m_random = new Random();
 
 		loadRGBA();
 		
-		m_aImgA *= alpha;
+		m_aImgA *= alphaA;
 		
 		convertToDoubles();
 		preMultiply();
@@ -51,6 +53,8 @@ public class BlendingModes
 		case DISSOLVE: return dissolve();
 		case MULTIPLY: return multiply();
 		case SCREEN: return screen();
+		case COLOR_BURN: return colorBurn();
+		case COLOR_DODGE: return colorDodge();
 
 		default: return normal();
 		}
@@ -125,6 +129,46 @@ public class BlendingModes
 		return p;
 	}
 
+	private static int colorBurn()
+	{
+		if (m_aImgAD == 0)
+		{
+			return m_imgB;
+		}
+		if (m_aImgBD == 0)
+		{
+			return m_imgA;
+		}
+		
+		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		
+		double r_comp = 1 - ((1.0 - m_rImgBD) / m_rImgAD);
+		double g_comp = 1 - ((1.0 - m_gImgBD) / m_gImgAD);
+		double b_comp = 1 - ((1.0 - m_bImgBD) / m_bImgAD);
+
+		return packColor(a_comp, r_comp, g_comp, b_comp);
+	}
+	
+	private static int colorDodge()
+	{
+		if (m_aImgAD == 0)
+		{
+			return m_imgB;
+		}
+		if (m_aImgBD == 0)
+		{
+			return m_imgA;
+		}
+		
+		double a_comp = m_aImgAD + (m_aImgBD * (1.0 - m_aImgAD));
+		
+		double r_comp = m_rImgBD / (1.0 - m_rImgAD);
+		double g_comp = m_gImgBD / (1.0 - m_gImgAD);
+		double b_comp = m_bImgBD / (1.0 - m_bImgAD);
+
+		return packColor(a_comp, r_comp, g_comp, b_comp);
+	}
+	
 	private static int overwrite()
 	{
 		return packColor(m_aImgA, m_rImgA, m_gImgA, m_bImgA);
@@ -172,4 +216,20 @@ public class BlendingModes
 		int p = a << 24 | r << 16 | g << 8 | b;
 		return p;
 	}
+	
+	public static int packColor(double a, double r, double g, double b)
+	{
+		int aa = clamp((int) (a * 255), 0, 255);
+		int rr = clamp((int) (r * 255), 0, 255);
+		int gg = clamp((int) (g * 255), 0, 255);
+		int bb = clamp((int) (b * 255), 0, 255);			
+		
+		return packColor(aa, rr, gg, bb);
+	}
+	
+	public static int clamp(int value, int min, int max) 
+	{
+        return Math.max(min, Math.min(max, value));
+    }
+
 }
