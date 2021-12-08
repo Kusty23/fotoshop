@@ -139,7 +139,7 @@ public class Layer
 		m_image = resizedImage;
 	}
 
-	public void brushAt(int x, int y, int color)
+	public void brushAt(int x, int y)
 	{
 		int radius = 100;
 		

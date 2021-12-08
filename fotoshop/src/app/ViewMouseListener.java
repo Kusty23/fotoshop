@@ -1,19 +1,19 @@
 package app;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import fotoshop.BlendingModes;
 import fotoshop.Layer;
+import fotoshop.Painter;
 
 public class ViewMouseListener implements MouseListener, MouseMotionListener
 {	
 	private int m_initialX, m_initialY;
 	private int m_initialOffsetX, m_initialOffsetY;
-
-	private static boolean m_mouseDown = false;
 	
 	private static ViewMouseListener m_vmlInstance;
 
@@ -22,6 +22,8 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	public static final int MOVE_MODE = 0;
 	public static final int BRUSH_MODE = 1;
 
+	private Point prev;
+	
 	private ViewMouseListener()
 	{
 		super();
@@ -52,9 +54,7 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 
 	@Override
 	public void mousePressed(MouseEvent e) 
-	{
-		m_mouseDown = true;
-		
+	{		
 		if (MOUSE_MODE == MOVE_MODE)
 		{
 			m_initialX = e.getX();
@@ -72,9 +72,9 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
-		m_mouseDown = false;
-		
 		MainFrame.getInstance().requestFocus();
+		
+		prev = null;
 	}
 
 	@Override
@@ -122,8 +122,16 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 				int y = e.getY();
 				
 				if (x > 0 && x < layer.getDimension().width && y > 0 && y< layer.getDimension().height)
+					layer.brushAt(x, y);
 				
-				layer.brushAt(x, y, BlendingModes.packColor(255, 58, 93, 217));
+				Point cur = e.getPoint();
+				
+				if (prev == null)
+					prev = cur;
+				
+				Painter.paintLine(layer, cur, prev);
+				
+				prev = cur;
 			}
 		}
 	}
@@ -131,10 +139,7 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		if (m_mouseDown)
-		{
-			System.out.println("Mouse down at " + e.getX() + "," + e.getY());
-		}
+		
 	}
 
 }
