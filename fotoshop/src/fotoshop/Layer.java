@@ -51,7 +51,7 @@ public class Layer
 		this.m_name = name;
 		this.m_id = Layer.m_nextID;
 		Layer.m_nextID++;
-
+		
 		this.m_original = image;
 		this.m_image = image;
 

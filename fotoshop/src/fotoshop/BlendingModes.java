@@ -193,16 +193,22 @@ public class BlendingModes
 
 	public static int packColor(int a, int r, int g, int b)
 	{
+		a = clamp(a, 0, 255);
+		r = clamp(r, 0, 255);
+		g = clamp(g, 0, 255);
+		b = clamp(b, 0, 255);
+		
 		int p = a << 24 | r << 16 | g << 8 | b;
+		
 		return p;
 	}
 	
 	public static int packColor(double a, double r, double g, double b)
 	{
-		int aaa = clamp((int) (a * 255), 0, 255);
-		int rr = clamp((int) (r * 255), 0, 255);
-		int gg = clamp((int) (g * 255), 0, 255);
-		int bb = clamp((int) (b * 255), 0, 255);			
+		int aaa = (int) (a * 255);
+		int rr = (int) (r * 255);
+		int gg = (int) (g * 255);
+		int bb = (int) (b * 255);
 		
 		return packColor(aaa, rr, gg, bb);
 	}
