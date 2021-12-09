@@ -3,9 +3,14 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 
 import app.InfoPanel;
 import app.ViewPanel;
+import fotoshop.filters.Filter;
+import fotoshop.filters.NoiseFilter;
 
 public class Layer 
 {
@@ -24,6 +29,9 @@ public class Layer
 	private double m_opacity;
 	
 	private int m_blendMode;
+	
+	// Filters
+	private ArrayList<Filter> m_filters;
 
 	public Layer(String name)
 	{
@@ -43,6 +51,8 @@ public class Layer
 		
 		this.m_blendMode = BlendingModes.NORMAL;
 
+		m_filters = new ArrayList<Filter>();
+		
 		initLayer();
 	}
 
@@ -64,6 +74,9 @@ public class Layer
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 		
+		m_filters = new ArrayList<Filter>();
+		m_filters.add(new NoiseFilter(40, NoiseFilter.MONO));
+		
 		initLayer();
 	}
 
@@ -77,6 +90,8 @@ public class Layer
 		if (m_image == null)
 			return;
 
+		BufferedImage render = applyFilters();
+		
 		BufferedImage canvas = Project.getInstance().getCanvas();
 
 		int x = 0;
@@ -104,7 +119,7 @@ public class Layer
 				}
 
 				int canvasRGB = canvas.getRGB(xO, yO);
-				int imageRGB = m_image.getRGB(x, y);
+				int imageRGB = render.getRGB(x, y);
 
 				int compositeRGB;
 
@@ -122,6 +137,18 @@ public class Layer
 			x++;
 			xO++;
 		}
+	}
+	
+	private BufferedImage applyFilters()
+	{
+		BufferedImage image = m_image;
+		
+		for (Filter filter : m_filters)
+		{
+			image = filter.applyFilter(image);
+		}
+		
+		return image;
 	}
 
 	private void resizeImage()
