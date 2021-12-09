@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import app.InfoPanel;
 import app.ViewPanel;
+import fotoshop.filters.BlurFilter;
 import fotoshop.filters.Filter;
 import fotoshop.filters.NoiseFilter;
 
@@ -75,7 +76,7 @@ public class Layer
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 		
 		m_filters = new ArrayList<Filter>();
-		m_filters.add(new NoiseFilter(40, NoiseFilter.MONO));
+		m_filters.add(new BlurFilter(10));
 		
 		initLayer();
 	}
