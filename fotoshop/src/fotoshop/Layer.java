@@ -20,16 +20,18 @@ public class Layer
 	private String m_name;
 	private int m_id;
 
-	private BufferedImage m_original, m_image;
+	private BufferedImage m_original, m_rendered;
 
 	private Dimension m_dimension;
 	private double m_originalAspect;
 
 	private Dimension m_offset;
-	
+
 	private double m_opacity;
-	
+
 	private int m_blendMode;
+
+	private boolean m_modified;
 	
 	// Filters
 	private ArrayList<Filter> m_filters;
@@ -41,20 +43,22 @@ public class Layer
 		Layer.m_nextID++;
 
 		this.m_original = new BufferedImage(Project.getInstance().getDimension().width, Project.getInstance().getDimension().height, BufferedImage.TYPE_INT_ARGB);
-		this.m_image = m_original;
-		
+		this.m_rendered = m_original;
+
 		this.m_dimension = new Dimension(Project.getInstance().getDimension().width, Project.getInstance().getDimension().height);
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
 		this.m_offset = new Dimension(0,0);
-		
+
 		this.m_opacity = 1.0;
-		
+
 		this.m_blendMode = BlendingModes.NORMAL;
 
-		m_filters = new ArrayList<Filter>();
+		this.m_modified = false;
 		
-		initLayer();
+		this.m_filters = new ArrayList<Filter>();
+
+		InfoPanel.getInstance().addLayer(this);
 	}
 
 	public Layer(String name, BufferedImage image)
@@ -62,36 +66,42 @@ public class Layer
 		this.m_name = name;
 		this.m_id = Layer.m_nextID;
 		Layer.m_nextID++;
-		
+
 		this.m_original = image;
-		this.m_image = image;
+		this.m_rendered = image;
 
 		this.m_blendMode = BlendingModes.NORMAL;
-		
+
 		this.m_offset = new Dimension(0,0);
-		
+
 		this.m_opacity = 1.0;
-		
+
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
+
+		this.m_modified = false;
 		
 		m_filters = new ArrayList<Filter>();
 		m_filters.add(new BlurFilter(10));
-		
-		initLayer();
-	}
+		this.m_modified = true;
 
-	private void initLayer()
-	{
 		InfoPanel.getInstance().addLayer(this);
 	}
 
 	public void drawToCanvas()
 	{
-		if (m_image == null)
+		if (m_rendered == null)
 			return;
 
-		BufferedImage render = applyFilters();
+		if (m_modified)
+		{
+			for (Filter filter : m_filters)
+			{
+				m_rendered = filter.applyFilter(m_rendered);
+			}
+
+			m_modified = false;
+		}
 		
 		BufferedImage canvas = Project.getInstance().getCanvas();
 
@@ -120,36 +130,24 @@ public class Layer
 				}
 
 				int canvasRGB = canvas.getRGB(xO, yO);
-				int imageRGB = render.getRGB(x, y);
+				int imageRGB = m_rendered.getRGB(x, y);
 
 				int compositeRGB;
 
 				if (m_id != 0)
-				compositeRGB = BlendingModes.combinePixel(imageRGB, canvasRGB, m_blendMode, m_opacity);
+					compositeRGB = BlendingModes.combinePixel(imageRGB, canvasRGB, m_blendMode, m_opacity);
 				else
 					compositeRGB = BlendingModes.combinePixel(imageRGB, canvasRGB, BlendingModes.NORMAL, m_opacity);
 
 				canvas.setRGB(xO, yO, compositeRGB);
-				
+
 				y++;
 				yO++;
 			}
-			
+
 			x++;
 			xO++;
 		}
-	}
-	
-	private BufferedImage applyFilters()
-	{
-		BufferedImage image = m_image;
-		
-		for (Filter filter : m_filters)
-		{
-			image = filter.applyFilter(image);
-		}
-		
-		return image;
 	}
 
 	private void resizeImage()
@@ -164,13 +162,15 @@ public class Layer
 		g.drawRenderedImage(m_original, at);
 		g.dispose();
 
-		m_image = resizedImage;
+		m_rendered = resizedImage;
+		
+		m_modified = true;
 	}
 
 	public void brushAt(int x, int y)
 	{
 		int radius = 100;
-		
+
 		for (int i=-radius; i<radius; i++)
 		{
 			for (int j=-radius; j<radius;j++)
@@ -179,21 +179,23 @@ public class Layer
 				{
 					int x0 = x - i - ViewPanel.PADDING - m_offset.width;
 					int y0 = y - j - ViewPanel.PADDING - m_offset.height;
-					
-					if (x0 < 0 || x0 >= m_image.getWidth())
+
+					if (x0 < 0 || x0 >= m_rendered.getWidth())
 						continue;
-					
-					if (y0 < 0 || y0 >= m_image.getHeight())
+
+					if (y0 < 0 || y0 >= m_rendered.getHeight())
 						continue;
-					
-					m_image.setRGB(x0, y0, Project.getInstance().BRUSH_COLOR);
+
+					m_rendered.setRGB(x0, y0, Project.getInstance().BRUSH_COLOR);
 				}
 			}
 		}
 		
+		m_modified = true;
+
 		ViewPanel.getInstance().repaint();
 	}
-	
+
 	public Dimension getDimension()
 	{
 		return this.m_dimension;
@@ -223,7 +225,7 @@ public class Layer
 
 	public BufferedImage getImage()
 	{
-		return this.m_image;
+		return this.m_rendered;
 	}
 
 	public String getName()
@@ -243,24 +245,24 @@ public class Layer
 
 	public void setImage(BufferedImage image)
 	{
-		this.m_image = image;
+		this.m_rendered = image;
 	}
-	
+
 	public double getOpacity()
 	{
 		return this.m_opacity;
 	}
-	
+
 	public void setOpacity(double opacity)
 	{
 		this.m_opacity = opacity;
 	}
-	
+
 	public int getBlendMode()
 	{
 		return this.m_blendMode;
 	}
-	
+
 	public void setBlendMode(int mode)
 	{
 		this.m_blendMode = mode;
