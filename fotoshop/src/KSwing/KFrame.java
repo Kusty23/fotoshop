@@ -12,9 +12,12 @@ public abstract class KFrame extends JFrame implements KContainer
 		createComponents();
 		arrangeComponents();
 		
+		// Set up look and feel
+		this.getContentPane().setBackground(KConstants.BACKGROUND_COLOR);
+
 		this.setVisible(true);
 	}
-	
+
 	@Override
 	abstract public void initialize();
 

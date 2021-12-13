@@ -21,8 +21,6 @@ public class ViewPanel extends KPanel
 	@Override
 	public void initialize() 
 	{
-		this.setBackground(new Color(212,212,212));
-
 		this.addMouseListener(ViewMouseListener.getInstance());
 		this.addMouseMotionListener(ViewMouseListener.getInstance());
 	}

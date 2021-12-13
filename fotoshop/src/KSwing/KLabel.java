@@ -20,5 +20,7 @@ public class KLabel extends JLabel
 		this.setMinimumSize(new Dimension(WIDTH, this.getMinimumSize().height));
 		this.setPreferredSize(new Dimension(WIDTH, this.getPreferredSize().height));
 		this.setMaximumSize(new Dimension(WIDTH, this.getMaximumSize().height));
+		
+		this.setForeground(KConstants.TEXT_COLOR);
 	}
 }

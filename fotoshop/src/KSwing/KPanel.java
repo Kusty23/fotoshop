@@ -2,12 +2,15 @@ package KSwing;
 
 import javax.swing.JPanel;
 
-public abstract class KPanel extends JPanel implements KContainer
+public class KPanel extends JPanel implements KContainer
 {
 	private static final long serialVersionUID = 1L;
 
 	public KPanel()
 	{
+		// Set up look and feel
+		this.setBackground(KConstants.BACKGROUND_COLOR);
+		
 		initialize();
 		createComponents();
 		arrangeComponents();
@@ -16,11 +19,14 @@ public abstract class KPanel extends JPanel implements KContainer
 	}
 	
 	@Override
-	abstract public void initialize();
+	public void initialize() {
+	}
 
 	@Override
-	abstract public void createComponents();
+	public void createComponents() {
+	}
 
 	@Override
-	abstract public void arrangeComponents();
+	public void arrangeComponents() {
+	}
 }

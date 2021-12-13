@@ -5,9 +5,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import KSwing.KCheckBox;
 import KSwing.KComboBox;
 import KSwing.KLabel;
 import KSwing.KLargeTextField;
@@ -32,7 +32,7 @@ public class PropertiesPanel extends KPanel
 	// Dimension
 	private KLabel m_dimensionLabel;
 	private KSmallTextField m_widthField, m_heightField;
-	private JCheckBox m_useOriginalAspectRatio;
+	private KCheckBox m_useOriginalAspectRatio;
 
 	// Offset
 	private KLabel m_offsetLabel;
@@ -136,7 +136,7 @@ public class PropertiesPanel extends KPanel
 		m_springLayout.addRow(new Component[] {m_dimensionLabel, m_widthField, m_heightField}, this);
 
 		// Use original aspect ratio
-		m_useOriginalAspectRatio = new JCheckBox("Use original aspect ratio");
+		m_useOriginalAspectRatio = new KCheckBox("Use original aspect ratio");
 		m_useOriginalAspectRatio.setSelected(true);
 
 		this.add(m_useOriginalAspectRatio);

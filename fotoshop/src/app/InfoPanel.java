@@ -1,15 +1,16 @@
 package app;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-
+import KSwing.KComboBox;
 import KSwing.KPanel;
+
 import fotoshop.Layer;
 import fotoshop.Project;
 
@@ -22,12 +23,12 @@ public class InfoPanel extends KPanel
 	public static final String PROJECT_ID_STRING = "Project";
 
 	// Panels
-	private JPanel m_selectionPanel, m_panelContainer;
+	private KPanel m_selectionPanel, m_panelContainer;
 	private CardLayout m_cardLayout;
 	private PropertiesPanel m_projectPropertiesPanel;
 
 	// Current Component
-	private static JComboBox<String> m_currentComponentBox;
+	private static KComboBox<String> m_currentComponentBox;
 
 	// Layers
 	private static ArrayList<PropertiesPanel> m_layerPropertiesPanels;
@@ -52,9 +53,9 @@ public class InfoPanel extends KPanel
 	public void createComponents() 
 	{
 		// Selection Panel
-		m_selectionPanel = new JPanel();
+		m_selectionPanel = new KPanel();
 
-		m_currentComponentBox = new JComboBox<String>();
+		m_currentComponentBox = new KComboBox<String>(new String[] {});
 		m_selectionPanel.add(m_currentComponentBox);
 
 		m_currentComponentBox.addActionListener(new ActionListener() {
@@ -62,7 +63,7 @@ public class InfoPanel extends KPanel
 		});
 		
 		// Panel Container
-		m_panelContainer = new JPanel();
+		m_panelContainer = new KPanel();
 		
 		this.m_cardLayout = new CardLayout();
 		m_panelContainer.setLayout(m_cardLayout);

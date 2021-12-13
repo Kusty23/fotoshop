@@ -23,7 +23,6 @@ public class MainFrame extends KFrame
 	public void initialize() 
 	{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.getContentPane().setBackground(Color.LIGHT_GRAY);
 
 		this.setSize(new Dimension(1000, 700));
 
