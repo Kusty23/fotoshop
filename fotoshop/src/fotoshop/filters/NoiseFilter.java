@@ -10,36 +10,24 @@ public class NoiseFilter extends Filter
 	public static final int MONO = 0;
 	public static final int MULTI = 1;
 
-	private int m_strength;
-	private int m_mode;
-
 	public NoiseFilter() 
 	{
 		super();
 	}
 
-	public NoiseFilter(int strength, int mode)
-	{
-		super();
-
-		this.m_strength = strength;
-		this.m_mode = mode;
-	}
-
-	@Override
-	public BufferedImage applyFilter(BufferedImage img) 
+	public static BufferedImage applyFilter(BufferedImage img, int strength, int mode) 
 	{
 		BufferedImage image = Filter.deepCopy(img);
 		
-		if (m_mode == NoiseFilter.MONO)
-			image = monochromatic(image);
-		else if (m_mode == NoiseFilter.MULTI)
-			image = multichromatic(image);
+		if (mode == NoiseFilter.MONO)
+			image = monochromatic(image, strength);
+		else if (mode == NoiseFilter.MULTI)
+			image = multichromatic(image, strength);
 		
 		return image;
 	}
 	
-	private BufferedImage monochromatic(BufferedImage image)
+	private static BufferedImage monochromatic(BufferedImage image, int strength)
 	{
 		Random random = new Random(SEED);
 
@@ -54,9 +42,9 @@ public class NoiseFilter extends Filter
 				int g = (p>>8) & 0xff;
 				int b = p & 0xff;
 
-				int delta = (int) (random.nextDouble() * m_strength);
+				int delta = (int) (random.nextDouble() * strength);
 
-				delta -= m_strength / 2;
+				delta -= strength / 2;
 
 				r += delta;
 				g += delta;
@@ -71,7 +59,7 @@ public class NoiseFilter extends Filter
 		return image;
 	}
 	
-	private BufferedImage multichromatic(BufferedImage image)
+	private static BufferedImage multichromatic(BufferedImage image, int strength)
 	{
 		Random random = new Random(SEED);
 
@@ -86,13 +74,13 @@ public class NoiseFilter extends Filter
 				int g = (p>>8) & 0xff;
 				int b = p & 0xff;
 
-				int deltaR = (int) (random.nextDouble() * m_strength);
-				int deltaG = (int) (random.nextDouble() * m_strength);
-				int deltaB = (int) (random.nextDouble() * m_strength);
+				int deltaR = (int) (random.nextDouble() * strength);
+				int deltaG = (int) (random.nextDouble() * strength);
+				int deltaB = (int) (random.nextDouble() * strength);
 				
-				deltaR -= m_strength / 2;
-				deltaG -= m_strength / 2;
-				deltaB -= m_strength / 2;
+				deltaR -= strength / 2;
+				deltaG -= strength / 2;
+				deltaB -= strength / 2;
 				
 				r += deltaR;
 				g += deltaG;

@@ -1,17 +1,13 @@
 package fotoshop;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 
 import app.InfoPanel;
 import app.ViewPanel;
 import fotoshop.filters.BlurFilter;
-import fotoshop.filters.Filter;
-import fotoshop.filters.NoiseFilter;
 
 public class Layer 
 {
@@ -31,11 +27,6 @@ public class Layer
 
 	private int m_blendMode;
 
-	private boolean m_modified;
-	
-	// Filters
-	private ArrayList<Filter> m_filters;
-
 	public Layer(String name)
 	{
 		this.m_name = name;
@@ -53,10 +44,6 @@ public class Layer
 		this.m_opacity = 1.0;
 
 		this.m_blendMode = BlendingModes.NORMAL;
-
-		this.m_modified = false;
-		
-		this.m_filters = new ArrayList<Filter>();
 
 		InfoPanel.getInstance().addLayer(this);
 	}
@@ -79,12 +66,6 @@ public class Layer
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
-		this.m_modified = false;
-		
-		m_filters = new ArrayList<Filter>();
-		m_filters.add(new BlurFilter(10));
-		this.m_modified = true;
-
 		InfoPanel.getInstance().addLayer(this);
 	}
 
@@ -92,16 +73,6 @@ public class Layer
 	{
 		if (m_rendered == null)
 			return;
-
-		if (m_modified)
-		{
-			for (Filter filter : m_filters)
-			{
-				m_rendered = filter.applyFilter(m_rendered);
-			}
-
-			m_modified = false;
-		}
 		
 		BufferedImage canvas = Project.getInstance().getCanvas();
 
@@ -163,8 +134,6 @@ public class Layer
 		g.dispose();
 
 		m_rendered = resizedImage;
-		
-		m_modified = true;
 	}
 
 	public void brushAt(int x, int y)
@@ -191,11 +160,16 @@ public class Layer
 			}
 		}
 		
-		m_modified = true;
-
 		ViewPanel.getInstance().repaint();
 	}
 
+	public void addBlurFilter()
+	{
+		m_rendered = BlurFilter.applyFilter(m_rendered, 5);
+		
+		ViewPanel.getInstance().repaint();
+	}
+	
 	public Dimension getDimension()
 	{
 		return this.m_dimension;

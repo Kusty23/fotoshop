@@ -8,11 +8,10 @@ public abstract class Filter
 {
 	protected final static int SEED = 0;
 	
-	public Filter()
+	public static BufferedImage applyFilter(BufferedImage image)
 	{
+		return image;
 	}
-	
-	public abstract BufferedImage applyFilter(BufferedImage image);
 	
 	public static BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();

@@ -19,7 +19,7 @@ public class ToolBar extends JMenuBar
 
 	private static ToolBar m_toolbarPanelInstance;
 	
-	private JMenu m_fileMenu, m_layerMenu, m_brushMenu;
+	private JMenu m_fileMenu, m_layerMenu, m_brushMenu, m_filterMenu;
 	
 	public ToolBar()
 	{
@@ -67,6 +67,18 @@ public class ToolBar extends JMenuBar
 		});
 
 		m_brushMenu.add(brushColor);
+		
+		// Filter Menu
+		m_filterMenu = new JMenu("Filter");
+		this.add(m_filterMenu);
+
+		// New Blur Filter
+		JMenuItem newBlurFilter = new JMenuItem("Add Blur Filter");
+		newBlurFilter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {onBlurFilter();}
+		});
+
+		m_filterMenu.add(newBlurFilter);
 	}
 
 	public static ToolBar getInstance()
@@ -132,5 +144,10 @@ public class ToolBar extends JMenuBar
 		ColorSelectionWindow csw = new ColorSelectionWindow();
 		
 		csw.setAlwaysOnTop(true);
+	}
+	
+	private void onBlurFilter()
+	{
+		Project.getInstance().getLayerFromID(0).addBlurFilter();
 	}
 }

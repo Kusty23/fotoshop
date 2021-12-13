@@ -6,15 +6,7 @@ import fotoshop.BlendingModes;
 
 public class BlurFilter extends Filter
 {
-	private int m_radius;
-
-	public BlurFilter(int blurRadius)
-	{
-		this.m_radius = blurRadius;
-	}
-
-	@Override
-	public BufferedImage applyFilter(BufferedImage img) 
+	public static BufferedImage applyFilter(BufferedImage img, int radius) 
 	{
 		BufferedImage image = Filter.deepCopy(img);
 
@@ -25,9 +17,9 @@ public class BlurFilter extends Filter
 				int a0 = 0, r0 = 0, g0 = 0, b0 = 0;
 				int count = 0;
 				
-				for (int i=-m_radius; i<m_radius; i++)
+				for (int i=-radius; i<radius; i++)
 				{
-					for (int j=-m_radius; j<m_radius; j++)
+					for (int j=-radius; j<radius; j++)
 					{
 						if (i + x >= 0 && i + x < img.getWidth() && j + y >= 0 && j + y < img.getHeight())
 						{
