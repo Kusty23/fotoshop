@@ -1,6 +1,5 @@
 package app;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import KSwing.KPanel;
 import fotoshop.Project;

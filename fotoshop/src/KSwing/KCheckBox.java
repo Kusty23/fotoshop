@@ -4,6 +4,8 @@ import javax.swing.JCheckBox;
 
 public class KCheckBox extends JCheckBox
 {
+	private static final long serialVersionUID = 1L;
+
 	public KCheckBox(String name)
 	{
 		super(name);
