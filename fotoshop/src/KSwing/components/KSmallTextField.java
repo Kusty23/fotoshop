@@ -1,16 +1,18 @@
-package KSwing;
+package KSwing.components;
 
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
 
-public class KLargeTextField extends JTextField
+import KSwing.KConstants;
+
+public class KSmallTextField extends JTextField
 {
 	private static final long serialVersionUID = 1L;
 
-	private final int WIDTH = 100;
+	private final int WIDTH = 45;
 
-	public KLargeTextField(String text)
+	public KSmallTextField(String text)
 	{
 		super(text);
 

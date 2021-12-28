@@ -1,6 +1,8 @@
-package KSwing;
+package KSwing.components;
 
 import javax.swing.JCheckBox;
+
+import KSwing.KConstants;
 
 public class KCheckBox extends JCheckBox
 {

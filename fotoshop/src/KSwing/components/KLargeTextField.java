@@ -1,26 +1,27 @@
-package KSwing;
+package KSwing.components;
 
 import java.awt.Dimension;
 
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.JTextField;
 
-public class KLabel extends JLabel
+import KSwing.KConstants;
+
+public class KLargeTextField extends JTextField
 {
 	private static final long serialVersionUID = 1L;
-	
-	private final int WIDTH = 50;
 
-	public KLabel(String text)
+	private final int WIDTH = 100;
+
+	public KLargeTextField(String text)
 	{
 		super(text);
-		
-		this.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
+		// Set up look and feel
+		this.setBackground(KConstants.COMPONENT_COLOR);
+		this.setForeground(KConstants.TEXT_COLOR);
+
 		this.setMinimumSize(new Dimension(WIDTH, this.getMinimumSize().height));
 		this.setPreferredSize(new Dimension(WIDTH, this.getPreferredSize().height));
 		this.setMaximumSize(new Dimension(WIDTH, this.getMaximumSize().height));
-		
-		this.setForeground(KConstants.TEXT_COLOR);
 	}
 }

@@ -1,8 +1,10 @@
-package KSwing;
+package KSwing.components;
 
 import java.awt.Dimension;
 
 import javax.swing.JComboBox;
+
+import KSwing.KConstants;
 
 public class KComboBox<T> extends JComboBox<T>
 {

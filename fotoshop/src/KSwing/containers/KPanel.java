@@ -1,6 +1,8 @@
-package KSwing;
+package KSwing.containers;
 
 import javax.swing.JPanel;
+
+import KSwing.KConstants;
 
 public class KPanel extends JPanel implements KContainer
 {

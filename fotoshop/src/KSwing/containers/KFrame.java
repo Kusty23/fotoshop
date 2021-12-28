@@ -1,6 +1,8 @@
-package KSwing;
+package KSwing.containers;
 
 import javax.swing.JFrame;
+
+import KSwing.KConstants;
 
 public abstract class KFrame extends JFrame implements KContainer
 {

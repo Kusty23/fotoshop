@@ -7,13 +7,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
-import KSwing.KCheckBox;
-import KSwing.KComboBox;
-import KSwing.KLabel;
-import KSwing.KLargeTextField;
-import KSwing.KPanel;
 import KSwing.KSpringLayout;
-import KSwing.KSmallTextField;
+import KSwing.components.KCheckBox;
+import KSwing.components.KComboBox;
+import KSwing.components.KLabel;
+import KSwing.components.KLargeTextField;
+import KSwing.components.KSmallTextField;
+import KSwing.containers.KPanel;
 import fotoshop.Layer;
 import fotoshop.Project;
 

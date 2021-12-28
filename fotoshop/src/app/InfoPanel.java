@@ -8,9 +8,8 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
-import KSwing.KComboBox;
-import KSwing.KPanel;
-
+import KSwing.components.KComboBox;
+import KSwing.containers.KPanel;
 import fotoshop.Layer;
 import fotoshop.Project;
 

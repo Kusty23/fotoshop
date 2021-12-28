@@ -1,4 +1,4 @@
-package KSwing;
+package KSwing.containers;
 
 public interface KContainer 
 {

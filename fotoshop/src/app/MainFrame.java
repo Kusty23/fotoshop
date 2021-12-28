@@ -2,7 +2,8 @@ package app;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import KSwing.KFrame;
+import KSwing.containers.KFrame;
+import KSwing.containers.KInternalFrame;
 import fotoshop.Project;
 import fotoshop.toolbar.ToolBar;
 
@@ -27,6 +28,8 @@ public class MainFrame extends KFrame
 		this.setSize(new Dimension(1000, 700));
 
 		this.addKeyListener(new MainKeyListener());
+		
+		
 	}
 
 	@Override
