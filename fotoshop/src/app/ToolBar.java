@@ -18,77 +18,92 @@ public class ToolBar extends JMenuBar
 	private static final long serialVersionUID = 1L;
 
 	private static ToolBar m_toolbarPanelInstance;
-	
+
 	private JMenu m_fileMenu, m_layerMenu, m_brushMenu, m_filterMenu;
-	
+
 	public ToolBar()
 	{
 		// File Menu
-		m_fileMenu = new JMenu("File");
-		this.add(m_fileMenu);
+		{
+			m_fileMenu = new JMenu("File");
+			this.add(m_fileMenu);
 
-		// New Project Item
-		JMenuItem newProject = new JMenuItem("New Project");
-		newProject.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onNewProject();}
-		});
+			// New Project Item
+			JMenuItem newProject = new JMenuItem("New Project");
+			newProject.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onNewProject();}
+			});
 
-		m_fileMenu.add(newProject);
+			m_fileMenu.add(newProject);
+		}
 
 
 		// Layer Menu
-		m_layerMenu = new JMenu("Layer");
-		this.add(m_layerMenu);
+		{
+			m_layerMenu = new JMenu("Layer");
+			this.add(m_layerMenu);
 
-		// New Layer Item
-		JMenuItem newLayer = new JMenuItem("New Layer");
-		newLayer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onNewLayer();}
-		});
+			// New Layer Item
+			JMenuItem newLayer = new JMenuItem("New Layer");
+			newLayer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onNewLayer();}
+			});
 
-		m_layerMenu.add(newLayer);
+			m_layerMenu.add(newLayer);
 
-		// New Layer Item
-		JMenuItem importLayer = new JMenuItem("Import Layer");
-		importLayer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onImportLayer();}
-		});
+			// New Layer Item
+			JMenuItem importLayer = new JMenuItem("Import Layer");
+			importLayer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onImportLayer();}
+			});
 
-		m_layerMenu.add(importLayer);
-		
+			m_layerMenu.add(importLayer);
+		}
+
 		// Brush Menu
-		m_brushMenu = new JMenu("Brush");
-		this.add(m_brushMenu);
+		{
+			m_brushMenu = new JMenu("Brush");
+			this.add(m_brushMenu);
 
-		// New Layer Item
-		JMenuItem brushColor = new JMenuItem("Brush Color");
-		brushColor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onBrushColor();}
-		});
+			// New Layer Item
+			JMenuItem brushColor = new JMenuItem("Brush Color");
+			brushColor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onBrushColor();}
+			});
 
-		m_brushMenu.add(brushColor);
-		
+			m_brushMenu.add(brushColor);
+		}
+
 		// Filter Menu
-		m_filterMenu = new JMenu("Filter");
-		this.add(m_filterMenu);
+		{
+			m_filterMenu = new JMenu("Filter");
+			this.add(m_filterMenu);
 
-		// New Blur Filter
-		JMenuItem newBlurFilter = new JMenuItem("Add Blur Filter");
-		newBlurFilter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {onBlurFilter();}
-		});
+			// New Blur Filter
+			JMenuItem newBlurFilter = new JMenuItem("Add Blur Filter");
+			newBlurFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onBlurFilter();}
+			});
 
-		m_filterMenu.add(newBlurFilter);
+			// New Blur Filter
+			JMenuItem newNoiseFilter = new JMenuItem("Add Noise Filter");
+			newNoiseFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ev) {onNoiseFilter();}
+			});
+
+			m_filterMenu.add(newBlurFilter);
+			m_filterMenu.add(newNoiseFilter);
+		}
 	}
 
 	public static ToolBar getInstance()
 	{
 		if (m_toolbarPanelInstance == null)
 			m_toolbarPanelInstance = new ToolBar();
-		
+
 		return ToolBar.m_toolbarPanelInstance;
 	}
-	
+
 	private void onNewLayer()
 	{
 		Project.getInstance().newLayer();
@@ -131,23 +146,28 @@ public class ToolBar extends JMenuBar
 			Project.getInstance().importLayer(file);
 		}
 	}
-	
+
 	private void onNewProject()
 	{
 		MainFrame.getInstance().createNewProject();
 	}
-	
+
 	private void onBrushColor()
 	{
 		Project.getInstance().BRUSH_COLOR = BlendingModes.packColor(255, 200, 150, 0);
-		
+
 		ColorSelectionWindow csw = new ColorSelectionWindow();
-		
+
 		csw.setAlwaysOnTop(true);
 	}
-	
+
 	private void onBlurFilter()
 	{
-		Project.getInstance().getLayerFromID(0).addBlurFilter();
+		Project.getInstance().getCurrentLayer().addBlurFilter();
+	}
+
+	private void onNoiseFilter()
+	{
+		Project.getInstance().getCurrentLayer().addNoiseFilter();
 	}
 }

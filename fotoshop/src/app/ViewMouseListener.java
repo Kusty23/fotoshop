@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 
 import fotoshop.Layer;
 import fotoshop.Painter;
+import fotoshop.Project;
 
 public class ViewMouseListener implements MouseListener, MouseMotionListener
 {	
@@ -41,14 +42,12 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	public static void setMouseMode(int mode)
 	{
 		MOUSE_MODE = mode;
-		
-		System.out.println("SET TO " + mode);
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
-		System.out.println("Click - " + e.getX() + "," + e.getY());
+		//System.out.println("Click - " + e.getX() + "," + e.getY());
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 			m_initialX = e.getX();
 			m_initialY = e.getY();
 
-			Layer layer = InfoPanel.getInstance().getCurrentLayer();
+			Layer layer = Project.getInstance().getCurrentLayer();
 			if (layer != null)
 			{
 				m_initialOffsetX = (int) layer.getOffset().getWidth();
@@ -96,7 +95,7 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 			int m_draggedX = e.getX();
 			int m_draggedY = e.getY();
 
-			Layer layer = InfoPanel.getInstance().getCurrentLayer();
+			Layer layer = Project.getInstance().getCurrentLayer();
 			if (layer != null)
 			{		
 				int delX = m_draggedX - m_initialX;			
@@ -114,7 +113,7 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 		}
 		else
 		{
-			Layer layer = InfoPanel.getInstance().getCurrentLayer();
+			Layer layer = Project.getInstance().getCurrentLayer();
 			if (layer != null)
 			{
 				int x = e.getX();

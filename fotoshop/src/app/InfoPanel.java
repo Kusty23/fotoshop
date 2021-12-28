@@ -33,7 +33,6 @@ public class InfoPanel extends KPanel
 	// Layers
 	private static ArrayList<PropertiesPanel> m_layerPropertiesPanels;
 	private static ArrayList<Integer> m_layerIDs;
-	private static Layer m_currentLayer;
 
 	public InfoPanel()
 	{		
@@ -90,11 +89,6 @@ public class InfoPanel extends KPanel
 	{
 		return InfoPanel.m_layerIDs;
 	}
-
-	public Layer getCurrentLayer()
-	{
-		return InfoPanel.m_currentLayer;
-	}
 	
 	public void addLayer(Layer layer)
 	{
@@ -119,7 +113,7 @@ public class InfoPanel extends KPanel
 
 		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
 		
-		InfoPanel.m_currentLayer = layer;
+		Project.getInstance().setCurrentLayer(layer);;
 	}
 
 	private void onCurrentComponentUpdate()
@@ -135,7 +129,7 @@ public class InfoPanel extends KPanel
 		
 		int id = Integer.parseInt(rawID);
 		
-		m_currentLayer = Project.getInstance().getLayerFromID(id);
+		Project.getInstance().setCurrentLayer(Project.getInstance().getLayerFromID(id));
 	}
 
 	public void initProjectPropertiesPanel()

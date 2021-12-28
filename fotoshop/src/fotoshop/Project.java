@@ -20,6 +20,8 @@ public class Project
 	private Dimension m_dimension;
 	
 	private ArrayList<Layer> m_layers;
+	private Layer m_currentLayer;
+	
 	private BufferedImage m_canvas;
 	
 	public int BRUSH_COLOR = 0;
@@ -32,6 +34,7 @@ public class Project
 		this.m_canvas = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_ARGB);
 		
 		this.m_layers = new ArrayList<Layer>();
+		this.m_currentLayer = null;
 	}
 	
 	public static Project getInstance()
@@ -69,6 +72,16 @@ public class Project
 		this.m_name = name;
 	}
 	
+	public Layer getCurrentLayer()
+	{
+		return this.m_currentLayer;
+	}
+	
+	public void setCurrentLayer(Layer layer)
+	{
+		this.m_currentLayer = layer;
+	}
+	
 	public static void createNewProject()
 	{
 		m_projectInstance = new Project();
@@ -90,6 +103,7 @@ public class Project
 		Layer newLayer = new Layer("New Layer");
 		
 		m_layers.add(newLayer);
+		m_currentLayer = newLayer;
 		
 		MainFrame.getInstance().repaint();
 	}
@@ -101,15 +115,15 @@ public class Project
 			BufferedImage image = ImageIO.read(file);
 			
 			Layer newLayer = new Layer("New Layer", image);
+			
 			this.m_layers.add(newLayer);
+			m_currentLayer = newLayer;
 			
 			MainFrame.getInstance().repaint();
-			
-			System.out.println("Loaded " + file.getAbsolutePath());
 		} 
 		catch (IOException e) 
 		{
-			System.out.println("Couldn't load " + file.getAbsolutePath());
+			System.out.println("Error while loading " + file.getAbsolutePath());
 		}
 	}
 	

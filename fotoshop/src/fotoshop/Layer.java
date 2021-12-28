@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import app.InfoPanel;
 import app.ViewPanel;
 import fotoshop.filters.BlurFilter;
+import fotoshop.filters.NoiseFilter;
 
 public class Layer 
 {
@@ -166,6 +167,13 @@ public class Layer
 	public void addBlurFilter()
 	{
 		m_rendered = BlurFilter.applyFilter(m_rendered, 5);
+		
+		ViewPanel.getInstance().repaint();
+	}
+	
+	public void addNoiseFilter()
+	{
+		m_rendered = NoiseFilter.applyFilter(m_rendered, 10, NoiseFilter.MONO);
 		
 		ViewPanel.getInstance().repaint();
 	}
