@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import KSwing.KFrame;
 import fotoshop.Project;
+import fotoshop.toolbar.ToolBar;
 
 public class MainFrame extends KFrame
 {
