@@ -3,7 +3,7 @@ package app;
 import java.awt.Graphics;
 
 import KSwing.containers.KPanel;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class ViewPanel extends KPanel
 {

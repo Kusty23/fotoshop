@@ -1,4 +1,4 @@
-package fotoshop;
+package fotoshop.project;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import app.MainFrame;
 import app.ViewPanel;
+import fotoshop.Layer;
 
 public class Project 
 {
@@ -82,9 +83,12 @@ public class Project
 		this.m_currentLayer = layer;
 	}
 	
-	public static void createNewProject()
+	public static void createNewProject(String name, Dimension dimension)
 	{
 		m_projectInstance = new Project();
+		
+		m_projectInstance.setName(name);
+		m_projectInstance.setDimension(dimension);
 	}
 	
 	public Layer getLayerFromID(int id)

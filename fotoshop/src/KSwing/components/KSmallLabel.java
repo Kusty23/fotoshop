@@ -7,13 +7,13 @@ import javax.swing.SwingConstants;
 
 import KSwing.KConstants;
 
-public class KLabel extends JLabel
+public class KSmallLabel extends JLabel
 {
 	private static final long serialVersionUID = 1L;
 	
 	private final int WIDTH = 50;
 
-	public KLabel(String text)
+	public KSmallLabel(String text)
 	{
 		super(text);
 		

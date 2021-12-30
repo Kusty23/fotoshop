@@ -10,12 +10,12 @@ import javax.swing.JTextField;
 import KSwing.KSpringLayout;
 import KSwing.components.KCheckBox;
 import KSwing.components.KComboBox;
-import KSwing.components.KLabel;
+import KSwing.components.KSmallLabel;
 import KSwing.components.KLargeTextField;
 import KSwing.components.KSmallTextField;
 import KSwing.containers.KPanel;
 import fotoshop.Layer;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class PropertiesPanel extends KPanel
 {
@@ -26,24 +26,24 @@ public class PropertiesPanel extends KPanel
 	private Layer m_layer;
 
 	// Name
-	private KLabel m_nameLabel;
+	private KSmallLabel m_nameLabel;
 	private KLargeTextField m_nameField;
 
 	// Dimension
-	private KLabel m_dimensionLabel;
+	private KSmallLabel m_dimensionLabel;
 	private KSmallTextField m_widthField, m_heightField;
 	private KCheckBox m_useOriginalAspectRatio;
 
 	// Offset
-	private KLabel m_offsetLabel;
+	private KSmallLabel m_offsetLabel;
 	private KSmallTextField m_offsetXField, m_offsetYField;
 
 	// Opacity
-	private KLabel m_opacityLabel;
+	private KSmallLabel m_opacityLabel;
 	private KLargeTextField m_opacityField;
 	
 	// Blend Mode
-	private KLabel m_blendLabel;
+	private KSmallLabel m_blendLabel;
 	private KComboBox<String> m_blendBox;
 
 	// Must keep track of the lowest component to 
@@ -95,7 +95,7 @@ public class PropertiesPanel extends KPanel
 
 	protected void addNameProperty(String name)
 	{
-		m_nameLabel = new KLabel("Name:");
+		m_nameLabel = new KSmallLabel("Name:");
 
 		m_nameField = new KLargeTextField(name);
 
@@ -113,7 +113,7 @@ public class PropertiesPanel extends KPanel
 
 	protected void addDimensionProperty(Dimension dimension)
 	{
-		m_dimensionLabel = new KLabel("Size:");
+		m_dimensionLabel = new KSmallLabel("Size:");
 		m_widthField = new KSmallTextField(String.valueOf(dimension.width));
 		m_heightField = new KSmallTextField(String.valueOf(dimension.height));
 
@@ -146,7 +146,7 @@ public class PropertiesPanel extends KPanel
 
 	protected void addOffsetProperty(Dimension offset)
 	{
-		m_offsetLabel = new KLabel("Offset:");
+		m_offsetLabel = new KSmallLabel("Offset:");
 		m_offsetXField = new KSmallTextField(String.valueOf(offset.width));
 		m_offsetYField = new KSmallTextField(String.valueOf(offset.height));
 
@@ -167,7 +167,7 @@ public class PropertiesPanel extends KPanel
 
 	public void addOpacityProperty(double opacity)
 	{
-		m_opacityLabel = new KLabel("Opacity:");
+		m_opacityLabel = new KSmallLabel("Opacity:");
 		m_opacityField = new KLargeTextField(String.valueOf(opacity));
 		
 		m_opacityField.addActionListener(new ActionListener() {
@@ -182,7 +182,7 @@ public class PropertiesPanel extends KPanel
 	
 	public void addBlendProperty()
 	{
-		m_blendLabel = new KLabel("Blend:");
+		m_blendLabel = new KSmallLabel("Blend:");
 
 		String[] options = {"Normal", "Dissolve", "Multiply", "Screen", "Color Burn", "Color Dodge", "Overwrite"};
 		m_blendBox = new KComboBox<String>(options);

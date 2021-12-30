@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import KSwing.components.KComboBox;
 import KSwing.containers.KPanel;
 import fotoshop.Layer;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class InfoPanel extends KPanel
 {

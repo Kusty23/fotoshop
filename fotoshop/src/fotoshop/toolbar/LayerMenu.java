@@ -9,7 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class LayerMenu extends JMenu
 {

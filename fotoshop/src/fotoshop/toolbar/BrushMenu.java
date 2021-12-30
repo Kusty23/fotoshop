@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 
 import app.ColorSelectionWindow;
 import fotoshop.BlendingModes;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class BrushMenu extends JMenu
 {

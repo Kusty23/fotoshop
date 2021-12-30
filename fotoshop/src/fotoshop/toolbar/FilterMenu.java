@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class FilterMenu extends JMenu
 {

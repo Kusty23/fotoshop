@@ -9,7 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fotoshop.BlendingModes;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class ColorSelectionWindow extends JDialog
 {

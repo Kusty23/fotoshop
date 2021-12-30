@@ -9,6 +9,7 @@ import app.InfoPanel;
 import app.ViewPanel;
 import fotoshop.filters.BlurFilter;
 import fotoshop.filters.NoiseFilter;
+import fotoshop.project.Project;
 
 public class Layer 
 {

@@ -3,8 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import KSwing.containers.KFrame;
-import KSwing.containers.KInternalFrame;
-import fotoshop.Project;
 import fotoshop.toolbar.ToolBar;
 
 public class MainFrame extends KFrame
@@ -16,8 +14,6 @@ public class MainFrame extends KFrame
 	private MainFrame()
 	{
 		super();
-
-		createNewProject();
 	}
 
 	@Override
@@ -28,8 +24,6 @@ public class MainFrame extends KFrame
 		this.setSize(new Dimension(1000, 700));
 
 		this.addKeyListener(new MainKeyListener());
-		
-		
 	}
 
 	@Override
@@ -54,14 +48,5 @@ public class MainFrame extends KFrame
 			m_mainFrameInstance = new MainFrame();
 
 		return m_mainFrameInstance;
-	}
-
-	public void createNewProject()
-	{
-		//NewProjectDialog npd = new NewProjectDialog(this);
-		Project.createNewProject();
-		
-		InfoPanel.getInstance().initProjectPropertiesPanel();
-		ViewPanel.getInstance().repaint();
 	}
 }

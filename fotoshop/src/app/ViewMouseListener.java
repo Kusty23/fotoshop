@@ -8,7 +8,7 @@ import java.awt.event.MouseMotionListener;
 
 import fotoshop.Layer;
 import fotoshop.Painter;
-import fotoshop.Project;
+import fotoshop.project.Project;
 
 public class ViewMouseListener implements MouseListener, MouseMotionListener
 {	
