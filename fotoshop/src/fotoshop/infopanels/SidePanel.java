@@ -1,4 +1,4 @@
-package app;
+package fotoshop.infopanels;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -13,27 +13,24 @@ import KSwing.containers.KPanel;
 import fotoshop.Layer;
 import fotoshop.project.Project;
 
-public class InfoPanel extends KPanel
+public class SidePanel extends KPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	private static InfoPanel m_infoPanelInstance;
-
-	public static final String PROJECT_ID_STRING = "Project";
+	private static SidePanel m_infoPanelInstance;
 
 	// Panels
 	private KPanel m_selectionPanel, m_panelContainer;
 	private CardLayout m_cardLayout;
-	private PropertiesPanel m_projectPropertiesPanel;
 
 	// Current Component
 	private static KComboBox<String> m_currentComponentBox;
 
 	// Layers
-	private static ArrayList<PropertiesPanel> m_layerPropertiesPanels;
+	private static ArrayList<LayerInfoPanel> m_infoPanels;
 	private static ArrayList<Integer> m_layerIDs;
 
-	public InfoPanel()
+	public SidePanel()
 	{		
 
 	}
@@ -43,8 +40,8 @@ public class InfoPanel extends KPanel
 	{
 		this.setBackground(new Color(100,100,100));
 		
-		InfoPanel.m_layerPropertiesPanels = new ArrayList<PropertiesPanel>();
-		InfoPanel.m_layerIDs = new ArrayList<Integer>();
+		SidePanel.m_infoPanels = new ArrayList<LayerInfoPanel>();
+		SidePanel.m_layerIDs = new ArrayList<Integer>();
 	}
 
 	@Override
@@ -76,34 +73,26 @@ public class InfoPanel extends KPanel
 		this.add(m_panelContainer, BorderLayout.CENTER);
 	}
 
-	public static InfoPanel getInstance()
+	public static SidePanel getInstance()
 	{
 		if (m_infoPanelInstance == null)
-			m_infoPanelInstance = new InfoPanel();
+			m_infoPanelInstance = new SidePanel();
 
-		return InfoPanel.m_infoPanelInstance;
+		return SidePanel.m_infoPanelInstance;
 	}
 
 	public static ArrayList<Integer> getLayerIDs()
 	{
-		return InfoPanel.m_layerIDs;
+		return SidePanel.m_layerIDs;
 	}
 	
 	public void addLayer(Layer layer)
 	{
 		m_layerIDs.add(layer.getID());
 
-		PropertiesPanel newLayerPanel = new PropertiesPanel();
+		LayerInfoPanel newLayerPanel = new LayerInfoPanel();
 
-		newLayerPanel.setLayer(layer);
-
-		newLayerPanel.addNameProperty(layer.getName());
-		newLayerPanel.addDimensionProperty(layer.getDimension());
-		newLayerPanel.addOffsetProperty(layer.getOffset());
-		newLayerPanel.addOpacityProperty(layer.getOpacity());
-		newLayerPanel.addBlendProperty();
-
-		m_layerPropertiesPanels.add(newLayerPanel);
+		m_infoPanels.add(newLayerPanel);
 
 		m_panelContainer.add(newLayerPanel, String.valueOf(layer.getID()));
 		
@@ -121,26 +110,8 @@ public class InfoPanel extends KPanel
 		
 		String rawID = (String) m_currentComponentBox.getSelectedItem();
 		
-		if (rawID.equals(PROJECT_ID_STRING))
-		{
-			return;
-		}
-		
 		int id = Integer.parseInt(rawID);
 		
 		Project.getInstance().setCurrentLayer(Project.getInstance().getLayerFromID(id));
-	}
-
-	public void initProjectPropertiesPanel()
-	{
-		m_projectPropertiesPanel = new PropertiesPanel();
-		m_panelContainer.add(m_projectPropertiesPanel, PROJECT_ID_STRING);
-		
-		m_currentComponentBox.addItem(PROJECT_ID_STRING);
-		
-		m_projectPropertiesPanel.addNameProperty("Project");
-		m_projectPropertiesPanel.addDimensionProperty(Project.getInstance().getDimension());
-		
-		m_cardLayout.show(m_panelContainer, PROJECT_ID_STRING);
 	}
 }

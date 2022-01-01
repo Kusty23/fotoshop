@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import KSwing.containers.KFrame;
+import fotoshop.infopanels.SidePanel;
 import fotoshop.toolbar.ToolBar;
 
 public class MainFrame extends KFrame
@@ -39,7 +40,7 @@ public class MainFrame extends KFrame
 
 		this.add(ToolBar.getInstance(), BorderLayout.PAGE_START);
 		this.add(ViewPanel.getInstance(), BorderLayout.CENTER);	
-		this.add(InfoPanel.getInstance(), BorderLayout.LINE_END);
+		this.add(SidePanel.getInstance(), BorderLayout.LINE_END);
 	}
 
 	public static MainFrame getInstance()

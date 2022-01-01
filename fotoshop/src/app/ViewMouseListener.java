@@ -53,6 +53,9 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{		
+		if (Project.getInstance() == null)
+			return;
+		
 		if (MOUSE_MODE == MOVE_MODE)
 		{
 			m_initialX = e.getX();
@@ -90,6 +93,9 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
+		if (Project.getInstance() == null)
+			return;
+		
 		if (MOUSE_MODE == MOVE_MODE)
 		{
 			int m_draggedX = e.getX();

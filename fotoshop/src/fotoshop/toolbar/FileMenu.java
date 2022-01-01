@@ -6,12 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import KSwing.containers.KDialog;
-import app.InfoPanel;
-import app.MainFrame;
-import app.ViewPanel;
 import fotoshop.project.NewProjectDialog;
-import fotoshop.project.Project;
 
 public class FileMenu extends JMenu
 {
@@ -35,6 +30,7 @@ public class FileMenu extends JMenu
 
 	private void onNewProject()
 	{
+		@SuppressWarnings("unused")
 		NewProjectDialog test = new NewProjectDialog();
 	}
 }

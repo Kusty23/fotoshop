@@ -1,13 +1,8 @@
 package fotoshop.project;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 
 import KSwing.components.KSmallLabel;
 import KSwing.components.KButton;
@@ -15,15 +10,12 @@ import KSwing.components.KLargeLabel;
 import KSwing.components.KLargeTextField;
 import KSwing.components.KSmallTextField;
 import KSwing.containers.KDialog;
-import app.InfoPanel;
 import app.MainFrame;
 import app.ViewPanel;
 
 public class NewProjectDialog extends KDialog
 {
 	private static final long serialVersionUID = 1L;
-
-	GridBagConstraints gbc;
 
 	// Project Name
 	KLargeTextField m_nameField;
@@ -46,9 +38,6 @@ public class NewProjectDialog extends KDialog
 	{
 		this.setSize(400, 300);
 		this.setLocation((int) (MainFrame.getInstance().getSize().getWidth() / 2), 200);
-
-		this.setLayout(new GridBagLayout());
-		gbc = new GridBagConstraints();
 	}
 
 	@Override
@@ -60,8 +49,8 @@ public class NewProjectDialog extends KDialog
 		
 		// Dimension
 		m_dimensionLabel = new KSmallLabel("Size:");
-		m_widthField = new KSmallTextField(String.valueOf(100));
-		m_heightField = new KSmallTextField(String.valueOf(100));
+		m_widthField = new KSmallTextField(String.valueOf(800));
+		m_heightField = new KSmallTextField(String.valueOf(600));
 		
 		// OK Button
 		m_okButton = new KButton("OK");
@@ -74,20 +63,20 @@ public class NewProjectDialog extends KDialog
 	public void arrangeComponents() 
 	{
 		// Project Name
-		this.addComponent(m_nameLabel, 1);
-		this.addComponent(m_nameField, 2);
+		m_contentPane.addComponent(m_nameLabel, 1);
+		m_contentPane.addComponent(m_nameField, 2);
 		
 		// Dimension
-		this.newRow();
+		m_contentPane.newRow();
 		
-		this.addComponent(m_dimensionLabel, 1);
-		this.addComponent(m_widthField, 1);
-		this.addComponent(m_heightField, 1);
+		m_contentPane.addComponent(m_dimensionLabel, 1);
+		m_contentPane.addComponent(m_widthField, 1);
+		m_contentPane.addComponent(m_heightField, 1);
 		
 		// OK Button
-		this.newRow();
+		m_contentPane.newRow();
 		
-		this.addComponentAt(m_okButton, 1, 2);
+		m_contentPane.addComponentAt(m_okButton, 1, 2);
 	}
 	
 	private void onOK()
@@ -104,7 +93,6 @@ public class NewProjectDialog extends KDialog
 		Project.createNewProject(name, pdimension);
 		
 		// Redraw the window
-		InfoPanel.getInstance().initProjectPropertiesPanel();
 		ViewPanel.getInstance().repaint();
 		
 		// Destroy the window

@@ -40,9 +40,6 @@ public class Project
 	
 	public static Project getInstance()
 	{
-		if (m_projectInstance == null)
-			m_projectInstance = new Project();
-		
 		return m_projectInstance;
 	}
 	

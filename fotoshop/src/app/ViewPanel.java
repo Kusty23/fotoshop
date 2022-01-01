@@ -49,7 +49,10 @@ public class ViewPanel extends KPanel
 	{
 		super.paintComponent(g);
 
-		Project.getInstance().render(g);
-		g.drawImage(Project.getInstance().getCanvas(), PADDING, PADDING, null);
+		if (Project.getInstance() != null)
+		{
+			Project.getInstance().render(g);
+			g.drawImage(Project.getInstance().getCanvas(), PADDING, PADDING, null);
+		}
 	}
 }

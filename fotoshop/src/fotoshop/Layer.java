@@ -5,10 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-import app.InfoPanel;
 import app.ViewPanel;
 import fotoshop.filters.BlurFilter;
 import fotoshop.filters.NoiseFilter;
+import fotoshop.infopanels.SidePanel;
 import fotoshop.project.Project;
 
 public class Layer 
@@ -47,7 +47,7 @@ public class Layer
 
 		this.m_blendMode = BlendingModes.NORMAL;
 
-		InfoPanel.getInstance().addLayer(this);
+		SidePanel.getInstance().addLayer(this);
 	}
 
 	public Layer(String name, BufferedImage image)
@@ -68,7 +68,7 @@ public class Layer
 		this.m_dimension = new Dimension(image.getWidth(), image.getHeight());
 		this.m_originalAspect = m_dimension.getWidth() / m_dimension.getHeight();
 
-		InfoPanel.getInstance().addLayer(this);
+		SidePanel.getInstance().addLayer(this);
 	}
 
 	public void drawToCanvas()
