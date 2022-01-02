@@ -165,9 +165,9 @@ public class Layer
 		ViewPanel.getInstance().repaint();
 	}
 
-	public void addBlurFilter()
+	public void addBlurFilter(int radius)
 	{
-		m_rendered = BlurFilter.applyFilter(m_rendered, 5);
+		m_rendered = BlurFilter.applyFilter(m_rendered, radius);
 		
 		ViewPanel.getInstance().repaint();
 	}

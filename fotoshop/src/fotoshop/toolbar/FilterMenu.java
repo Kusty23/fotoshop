@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import fotoshop.filters.BlurFilterDialog;
 import fotoshop.project.Project;
 
 public class FilterMenu extends JMenu
@@ -35,7 +36,9 @@ public class FilterMenu extends JMenu
 	
 	private void onBlurFilter()
 	{
-		Project.getInstance().getCurrentLayer().addBlurFilter();
+		@SuppressWarnings("unused")
+		BlurFilterDialog bfd = new BlurFilterDialog();
+		//Project.getInstance().getCurrentLayer().addBlurFilter();
 	}
 
 	private void onNoiseFilter()
