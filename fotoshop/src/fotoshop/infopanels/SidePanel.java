@@ -89,6 +89,9 @@ public class SidePanel extends KPanel
 	public void addLayer(Layer layer)
 	{
 		m_layerIDs.add(layer.getID());
+		
+		// Must set to current layer before initiating layer panel
+		Project.getInstance().setCurrentLayer(layer);
 
 		LayerInfoPanel newLayerPanel = new LayerInfoPanel();
 
@@ -100,8 +103,6 @@ public class SidePanel extends KPanel
 		m_currentComponentBox.setSelectedItem(String.valueOf(layer.getID()));
 
 		m_cardLayout.show(m_panelContainer, String.valueOf(layer.getID()));
-		
-		Project.getInstance().setCurrentLayer(layer);;
 	}
 
 	private void onCurrentComponentUpdate()

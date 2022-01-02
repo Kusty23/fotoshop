@@ -1,7 +1,10 @@
 package fotoshop.infopanels;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 import KSwing.components.KCheckBox;
 import KSwing.components.KComboBox;
@@ -9,11 +12,16 @@ import KSwing.components.KLargeTextField;
 import KSwing.components.KSmallLabel;
 import KSwing.components.KSmallTextField;
 import KSwing.containers.KPanel;
+import fotoshop.BlendingModes;
+import fotoshop.Layer;
+import fotoshop.project.Project;
 
 public class LayerInfoPanel extends KPanel
 {
 	private static final long serialVersionUID = 1L;
 
+	private Layer m_layer;
+	
 	// Name
 	private KSmallLabel m_nameLabel;
 	private KLargeTextField m_nameField;
@@ -34,6 +42,7 @@ public class LayerInfoPanel extends KPanel
 	// Blend Mode
 	private KSmallLabel m_blendLabel;
 	private KComboBox<String> m_blendBox;
+	private Dictionary<String, Integer> m_blendDict;
 	
 	public LayerInfoPanel()
 	{
@@ -43,7 +52,16 @@ public class LayerInfoPanel extends KPanel
 	@Override
 	public void initialize() 
 	{
-
+		m_layer = Project.getInstance().getCurrentLayer();
+		
+		m_blendDict = new Hashtable<String, Integer>();
+		m_blendDict.put("Normal", BlendingModes.NORMAL);
+		m_blendDict.put("Dissolve", BlendingModes.DISSOLVE);
+		m_blendDict.put("Multiply", BlendingModes.MULTIPLY);
+		m_blendDict.put("Screen", BlendingModes.SCREEN);
+		m_blendDict.put("Color Burn", BlendingModes.COLOR_BURN);
+		m_blendDict.put("Color Dodge", BlendingModes.COLOR_DODGE);
+		m_blendDict.put("Overwrite", BlendingModes.OVERWRITE);
 	}
 
 	@Override
@@ -51,7 +69,7 @@ public class LayerInfoPanel extends KPanel
 	{
 		// Name
 		m_nameLabel = new KSmallLabel("Name:");
-		m_nameField = new KLargeTextField("name");
+		m_nameField = new KLargeTextField(m_layer.getName());
 
 		m_nameField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateName();}
@@ -59,8 +77,8 @@ public class LayerInfoPanel extends KPanel
 		
 		// Dimension
 		m_dimensionLabel = new KSmallLabel("Size:");
-		m_widthField = new KSmallTextField(String.valueOf(100));
-		m_heightField = new KSmallTextField(String.valueOf(100));
+		m_widthField = new KSmallTextField(String.valueOf(m_layer.getDimension().width));
+		m_heightField = new KSmallTextField(String.valueOf(m_layer.getDimension().height));
 
 		m_widthField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateDimension(e);}
@@ -70,11 +88,12 @@ public class LayerInfoPanel extends KPanel
 		});
 		
 		m_useOriginalAspectRatio = new KCheckBox("Keep Aspect Ratio");		
+		m_useOriginalAspectRatio.setSelected(true);
 		
 		// Offset
 		m_offsetLabel = new KSmallLabel("Offset:");
-		m_offsetXField = new KSmallTextField(String.valueOf(100));
-		m_offsetYField = new KSmallTextField(String.valueOf(100));
+		m_offsetXField = new KSmallTextField(String.valueOf(m_layer.getOffset().width));
+		m_offsetYField = new KSmallTextField(String.valueOf(m_layer.getOffset().height));
 
 		m_offsetXField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateOffset();}
@@ -86,7 +105,7 @@ public class LayerInfoPanel extends KPanel
 		
 		// Opacity
 		m_opacityLabel = new KSmallLabel("Opacity:");
-		m_opacityField = new KLargeTextField(String.valueOf(100));
+		m_opacityField = new KLargeTextField(String.valueOf(m_layer.getOpacity()));
 		
 		m_opacityField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {updateOpacity();}
@@ -138,26 +157,36 @@ public class LayerInfoPanel extends KPanel
 	
 	private void updateName()
 	{
-				
+		m_layer.setName(m_nameField.getText());
 	}
 	
 	private void updateDimension(ActionEvent e)
 	{
-
+		int width = Integer.valueOf(m_widthField.getText());
+		int height = Integer.valueOf(m_heightField.getText());
+		
+		m_layer.setDimension(new Dimension(width, height));
 	}
 	
 	private void updateOffset()
 	{
-
+		int offsetX = Integer.valueOf(m_offsetXField.getText());
+		int offsetY = Integer.valueOf(m_offsetYField.getText());
+		
+		m_layer.setOffset(new Dimension(offsetX, offsetY));
 	}
 	
 	private void updateOpacity()
 	{
-
+		int opacity = Integer.valueOf(m_opacityField.getText());
+		
+		m_layer.setOpacity(opacity);
 	}
 	
 	private void updateBlend()
 	{		
-
+		int mode = m_blendDict.get(m_blendBox.getSelectedItem());
+		
+		m_layer.setBlendMode(mode);
 	}
 }

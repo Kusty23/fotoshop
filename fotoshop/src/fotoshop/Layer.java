@@ -136,6 +136,8 @@ public class Layer
 		g.dispose();
 
 		m_rendered = resizedImage;
+		
+		ViewPanel.getInstance().repaint();
 	}
 
 	public void brushAt(int x, int y)
@@ -204,6 +206,8 @@ public class Layer
 	public void setOffset(Dimension offset)
 	{
 		this.m_offset = offset;
+		
+		ViewPanel.getInstance().repaint();
 	}
 
 	public BufferedImage getImage()
@@ -229,6 +233,8 @@ public class Layer
 	public void setImage(BufferedImage image)
 	{
 		this.m_rendered = image;
+		
+		ViewPanel.getInstance().repaint();
 	}
 
 	public double getOpacity()
@@ -239,6 +245,8 @@ public class Layer
 	public void setOpacity(double opacity)
 	{
 		this.m_opacity = opacity;
+		
+		ViewPanel.getInstance().repaint();
 	}
 
 	public int getBlendMode()
@@ -249,5 +257,7 @@ public class Layer
 	public void setBlendMode(int mode)
 	{
 		this.m_blendMode = mode;
+		
+		ViewPanel.getInstance().repaint();
 	}
 }
