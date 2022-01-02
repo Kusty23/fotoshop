@@ -7,7 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import fotoshop.filters.BlurFilterDialog;
-import fotoshop.project.Project;
+import fotoshop.filters.NoiseFilterDialog;
 
 public class FilterMenu extends JMenu
 {
@@ -38,11 +38,11 @@ public class FilterMenu extends JMenu
 	{
 		@SuppressWarnings("unused")
 		BlurFilterDialog bfd = new BlurFilterDialog();
-		//Project.getInstance().getCurrentLayer().addBlurFilter();
 	}
 
 	private void onNoiseFilter()
 	{
-		Project.getInstance().getCurrentLayer().addNoiseFilter();
+		@SuppressWarnings("unused")
+		NoiseFilterDialog nfd = new NoiseFilterDialog();
 	}
 }

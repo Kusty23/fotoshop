@@ -172,9 +172,9 @@ public class Layer
 		ViewPanel.getInstance().repaint();
 	}
 	
-	public void addNoiseFilter()
+	public void addNoiseFilter(int strength, int mode)
 	{
-		m_rendered = NoiseFilter.applyFilter(m_rendered, 10, NoiseFilter.MONO);
+		m_rendered = NoiseFilter.applyFilter(m_rendered, strength, mode);
 		
 		ViewPanel.getInstance().repaint();
 	}
