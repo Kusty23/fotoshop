@@ -178,8 +178,8 @@ public class LayerInfoPanel extends KPanel
 	
 	private void updateOpacity()
 	{
-		int opacity = Integer.valueOf(m_opacityField.getText());
-		
+		double opacity = Double.valueOf(m_opacityField.getText());
+		 
 		m_layer.setOpacity(opacity);
 	}
 	
