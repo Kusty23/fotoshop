@@ -81,10 +81,10 @@ public class LayerInfoPanel extends KPanel
 		m_heightField = new KSmallTextField(String.valueOf(m_layer.getDimension().height));
 
 		m_widthField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {updateDimension(e);}
+			public void actionPerformed(ActionEvent e) {updateWidth();}
 		});
 		m_heightField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {updateDimension(e);}
+			public void actionPerformed(ActionEvent e) {updateHeight();}
 		});
 		
 		m_useOriginalAspectRatio = new KCheckBox("Keep Aspect Ratio");		
@@ -160,10 +160,30 @@ public class LayerInfoPanel extends KPanel
 		m_layer.setName(m_nameField.getText());
 	}
 	
-	private void updateDimension(ActionEvent e)
+	private void updateWidth()
 	{
 		int width = Integer.valueOf(m_widthField.getText());
 		int height = Integer.valueOf(m_heightField.getText());
+		
+		if (m_useOriginalAspectRatio.isSelected())
+		{
+			height = (int) (width / m_layer.getOriginalAspect());
+			m_heightField.setText(String.valueOf(height));
+		}
+		
+		m_layer.setDimension(new Dimension(width, height));
+	}
+	
+	private void updateHeight()
+	{
+		int width = Integer.valueOf(m_widthField.getText());
+		int height = Integer.valueOf(m_heightField.getText());
+		
+		if (m_useOriginalAspectRatio.isSelected())
+		{
+			width = (int) (height * m_layer.getOriginalAspect());
+			m_widthField.setText(String.valueOf(width));
+		}
 		
 		m_layer.setDimension(new Dimension(width, height));
 	}
@@ -179,7 +199,7 @@ public class LayerInfoPanel extends KPanel
 	private void updateOpacity()
 	{
 		double opacity = Double.valueOf(m_opacityField.getText());
-		 
+		
 		m_layer.setOpacity(opacity);
 	}
 	
