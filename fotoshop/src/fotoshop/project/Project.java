@@ -26,6 +26,7 @@ public class Project
 	private BufferedImage m_canvas;
 	
 	public int BRUSH_COLOR = 0;
+	public int m_brushRadius;
 	
 	private Project()
 	{
@@ -36,6 +37,8 @@ public class Project
 		
 		this.m_layers = new ArrayList<Layer>();
 		this.m_currentLayer = null;
+		
+		this.m_brushRadius = 100;
 	}
 	
 	public static Project getInstance()
@@ -78,6 +81,16 @@ public class Project
 	public void setCurrentLayer(Layer layer)
 	{
 		this.m_currentLayer = layer;
+	}
+	
+	public int getBrushRadius()
+	{
+		return m_brushRadius;
+	}
+	
+	public void setBrushRadius(int radius)
+	{
+		this.m_brushRadius = radius;
 	}
 	
 	public static void createNewProject(String name, Dimension dimension)

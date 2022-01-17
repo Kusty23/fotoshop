@@ -44,6 +44,11 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 		MOUSE_MODE = mode;
 	}
 	
+	public static int getMouseMode()
+	{
+		return MOVE_MODE;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
@@ -122,12 +127,6 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 			Layer layer = Project.getInstance().getCurrentLayer();
 			if (layer != null)
 			{
-				int x = e.getX();
-				int y = e.getY();
-				
-				if (x > 0 && x < layer.getDimension().width && y > 0 && y< layer.getDimension().height)
-					layer.brushAt(x, y);
-				
 				Point cur = e.getPoint();
 				
 				if (prev == null)
@@ -143,7 +142,10 @@ public class ViewMouseListener implements MouseListener, MouseMotionListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		
+		if (MOUSE_MODE == BRUSH_MODE)
+		{
+			ViewPanel.drawCursor(e.getPoint());
+		}
 	}
 
 }

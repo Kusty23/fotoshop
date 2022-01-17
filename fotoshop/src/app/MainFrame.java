@@ -1,7 +1,6 @@
 package app;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import KSwing.containers.KFrame;
 import fotoshop.infopanels.SidePanel;
 import fotoshop.toolbar.ToolBar;

@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 import KSwing.containers.KPanel;
 import fotoshop.project.Project;
@@ -54,5 +55,13 @@ public class ViewPanel extends KPanel
 			Project.getInstance().render(g);
 			g.drawImage(Project.getInstance().getCanvas(), PADDING, PADDING, null);
 		}
+	}
+	
+	public static void drawCursor(Point p)
+	{
+		int radius = 10;
+		
+		MainFrame.getInstance().repaint();
+		ViewPanel.getInstance().getGraphics().drawArc(p.x - radius, p.y - radius, radius * 2, radius * 2, 0, 360);
 	}
 }

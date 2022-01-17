@@ -71,6 +71,11 @@ public class Layer
 		SidePanel.getInstance().addLayer(this);
 	}
 
+	public void setRGB(int x, int y, int rgb)
+	{
+		this.m_rendered.setRGB(x, y, rgb);
+	}
+	
 	public void drawToCanvas()
 	{
 		if (m_rendered == null)
@@ -136,33 +141,6 @@ public class Layer
 		g.dispose();
 
 		m_rendered = resizedImage;
-		
-		ViewPanel.getInstance().repaint();
-	}
-
-	public void brushAt(int x, int y)
-	{
-		int radius = 100;
-
-		for (int i=-radius; i<radius; i++)
-		{
-			for (int j=-radius; j<radius;j++)
-			{
-				if (Math.pow(i, 2) + Math.pow(j, 2) < radius)
-				{
-					int x0 = x - i - ViewPanel.PADDING - m_offset.width;
-					int y0 = y - j - ViewPanel.PADDING - m_offset.height;
-
-					if (x0 < 0 || x0 >= m_rendered.getWidth())
-						continue;
-
-					if (y0 < 0 || y0 >= m_rendered.getHeight())
-						continue;
-
-					m_rendered.setRGB(x0, y0, Project.getInstance().BRUSH_COLOR);
-				}
-			}
-		}
 		
 		ViewPanel.getInstance().repaint();
 	}
